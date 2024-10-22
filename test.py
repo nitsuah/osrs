@@ -3,9 +3,29 @@ from PIL import ImageGrab
 import cv2
 import pyautogui
 import pytesseract
+import subprocess
 
 # Specify the Tesseract OCR path if not in PATH
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
+def check_tesseract_version():
+    """Check if Tesseract is installed and verify its version."""
+    try:
+        output = subprocess.check_output([pytesseract.pytesseract.tesseract_cmd, '--version']).decode('utf-8')
+        print("Tesseract installed:", output.strip())
+        
+        # Extract the version number from the output
+        version_line = output.splitlines()[0]  # Get the first line
+        version_number = version_line.split()[1]  # Get the version number part
+        major_version = int(version_number[1])  # Convert to int after removing 'v'
+        
+        if major_version < 4:
+            print("Warning: Tesseract version is less than 4.0. Some features may not work.")
+            return False
+        return True
+    except Exception as e:
+        print("An error occurred while checking Tesseract version:", str(e))
+        return False
 
 def capture_screen():
     """Capture the full screen and return it as a numpy array."""
@@ -39,6 +59,10 @@ def capture_and_process_chat(screen_np, screen_width, screen_height):
     print("Chat Text:", chat_text)
 
 def main():
+    if not check_tesseract_version():
+        print("Exiting due to Tesseract installation issue.")
+        return
+
     # Screen resolution (adjust based on your monitor setup)
     screen_width, screen_height = pyautogui.size()  # This will give you the resolution dynamically
 
@@ -57,4 +81,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
