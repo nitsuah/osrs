@@ -1,6 +1,8 @@
 import pyautogui
 import time
 
-def click_compass(coordinates):
-    pyautogui.click(coordinates[0], coordinates[1])
-    time.sleep(0.5)
+def click_compass(compass_position):
+    """Clicks the compass to reset the camera orientation."""
+    pyautogui.click(*compass_position)
+    print(f"Clicked compass at: {compass_position}")
+    time.sleep(1)  # Allow some time for the camera to adjust
