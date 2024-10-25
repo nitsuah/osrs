@@ -47,7 +47,7 @@ chat_region = tuple(map(int, config.get('coordinates', 'chat_region').split(',')
 # Global flags
 running = True
 click_counter = 0
-check_chat_threshold = 15
+check_chat_threshold = 20
 screenshot_directory = ".//bot//questions"
 pause_thieving = False  # Pause functionality
 is_inventory_full = False  # Track inventory status
@@ -153,10 +153,15 @@ def correct_text(text):
 def lookup_response(question):
     """Look up the appropriate response for the cleaned question."""
     cleaned_question = clean_question(question)
-    for q in question_responses.keys():
-        if cleaned_question.startswith(q):
-            logging.info(f"Question matched: '{cleaned_question}' -> '{question_responses[q]}'")
-            return question_responses[q]
+
+    # Log the cleaned question for debugging
+    logging.info(f"Looking up response for cleaned question: '{cleaned_question}'")
+
+    for entry in question_responses['questions']:
+        # Check if the question matches or if the keyword is present in the cleaned question
+        if cleaned_question.lower() == entry['question'].lower() or entry['keyword'].lower() in cleaned_question.lower():
+            logging.info(f"Question matched: '{cleaned_question}' -> '{entry['answer']}'")
+            return entry['answer']
 
     logging.info(f"No match found for question: '{cleaned_question}'")
     return "bald"  # Return a default response if no match is found
@@ -173,6 +178,10 @@ def respond_to_question(question, chat_image):
     time.sleep(0.5)
     pyautogui.typewrite(response)
     winsound.Beep(1000, 500)
+
+    # Reset inventory state after responding
+    global is_inventory_full
+    is_inventory_full = False
 
     input("Press Enter to continue...") 
 
@@ -214,7 +223,7 @@ def thieve_from_stall(chat_text):
 
 def handle_user_input():
     global pause_thieving  # Access the global pause variable
-    if keyboard.is_pressed('left ctrl'):  # Check for Left Ctrl key press
+    if keyboard.is_pressed('left shift'):  # Check for Left Ctrl key press
         print("Pause state toggled.")
         pause_thieving = not pause_thieving
         logging.info(f"Pause state toggled: {'Paused' if pause_thieving else 'Running'}")
@@ -228,28 +237,37 @@ def main():
 
     # Check Tesseract version at the start
     if not check_tesseract_version():
-        return  # Exit if Tesseract is not available
+        return  # Exit if Tesseract is not found
 
-    while running:  # Main loop for thieving
-        handle_user_input()  # Check for user input to toggle pause
-
-        if pause_thieving:  # If paused, skip the iteration
-            logging.info("Bot is currently paused.")
-            time.sleep(0.6)
+    while running:
+        if pause_thieving:
+            print("Bot is paused. Waiting for unpause...")
+            logging.info("Bot paused.")
+            time.sleep(1)
+            handle_user_input()  # Check for pause/unpause input
             continue
 
-        screen_np = capture_screen()
-        chat_text, chat_image = capture_and_process_chat(screen_np)
+        handle_user_input()  # Check for pause/unpause input
 
-        if chat_text:
+        screen_np = capture_screen()  # Capture the screen
+        if screen_np is None:
+            continue  # Skip processing if screen capture failed
+
+        chat_text, chat_image = capture_and_process_chat(screen_np)  # Extract chat text
+
+        if not chat_text:
+            continue  # Skip if no text was extracted
+
+        if "you may be teleported away" in chat_text.lower():
             question = extract_question(chat_text, chat_image)
             if question:
                 respond_to_question(question, chat_image)
-
-        thieve_from_stall(chat_text)
-
+        
+        thieve_from_stall(chat_text)  # Handle thieving actions
         click_counter += 1
-        time.sleep(0.5)  # Thieving delay
+
+        # Rest between actions to avoid bot-like behavior
+        time.sleep(random.uniform(0.5, 1.0))
 
 if __name__ == "__main__":
     main()
