@@ -45,15 +45,15 @@ stall_position = tuple(map(int, config.get('coordinates', 'stall_position').spli
 chat_region = tuple(map(int, config.get('coordinates', 'chat_region').split(',')))
 
 # Global flags
-running = True
-click_counter = 0
-check_chat_threshold = 20
-screenshot_directory = ".//bot//questions"
-pause_thieving = False  # Pause functionality
-is_inventory_full = False  # Track inventory status
+RUNNING = True
+CLICK_COUNTER = 0
+CHECK_CHAT_THRESHOLD = 20
+SCREENSHOT_DIRECTORY = ".//bot//questions"
+PAUSE_THIEVING = False  # Pause functionality
+IS_INVENTORY_FULL = False  # Track inventory status
 
 # Create the screenshot directory if it doesn't exist
-os.makedirs(screenshot_directory, exist_ok=True)
+os.makedirs(SCREENSHOT_DIRECTORY, exist_ok=True)
 
 # Load question-response pairs from JSON file
 questions_file_path = os.path.join(os.path.dirname(__file__), 'questions.json')
@@ -62,16 +62,17 @@ def load_question_responses():
     """Load question-response pairs from a JSON file."""
     question_response_dict = {}
     try:
-        with open(questions_file_path, 'r') as file:
-            logging.info(f"Loading questions from {questions_file_path}")
-            question_response_dict = json.load(file)
-            logging.info(f"Loaded {len(question_response_dict)} question-response pairs.")
+        if os.path.exists(questions_file_path):
+            with open(questions_file_path, 'r', encoding='utf-8') as file:
+                logging.info("Loading questions from %s", questions_file_path)
+                question_response_dict = json.load(file)
+                logging.info("Loaded %d question-response pairs.", len(question_response_dict))
+        else:
+            logging.error("Questions file not found at %s", questions_file_path)
     except FileNotFoundError:
-        logging.error(f"Questions file not found at {questions_file_path}")
+        logging.error("Questions file not found at %s", questions_file_path)
     except json.JSONDecodeError:
         logging.error("Failed to decode JSON from questions file.")
-    except Exception as e:
-        logging.error(f"Failed to load questions: {e}")
     return question_response_dict
 
 # Load the question-response dictionary
@@ -85,7 +86,7 @@ def click_with_variance(x, y, variance=5):
     """Click at the specified coordinates with a random variance."""
     x += random.randint(-variance, variance)
     y += random.randint(-variance, variance)
-    logging.debug(f"Clicking at ({x}, {y}) with variance of {variance}")
+    logging.debug("Clicking at (%d, %d) with variance of %d", x, y, variance)
     pyautogui.click(x, y)
 
 def capture_screen():
@@ -95,8 +96,8 @@ def capture_screen():
         screen_np = np.array(screen)
         logging.info("Screen captured successfully.")
         return cv2.cvtColor(screen_np, cv2.COLOR_BGR2RGB)
-    except Exception as e:
-        logging.error(f"Error capturing screen: {e}")
+    except OSError as e:
+        logging.error("Error capturing screen: %s", e)
         return None
 
 def capture_and_process_chat(screen_np):
@@ -104,50 +105,46 @@ def capture_and_process_chat(screen_np):
     if screen_np is None:
         logging.warning("No screen image to process.")
         return ""
-    
+
     chat_image = screen_np[chat_region[0]:chat_region[1], chat_region[2]:chat_region[3]]
-    
+
     if chat_image.size == 0:
         logging.warning("Captured chat image is empty.")
         return ""
-    
+
     chat_text = pytesseract.image_to_string(chat_image)
-    logging.info(f"Extracted chat text: '{chat_text}'")
+    logging.info("Extracted chat text: '%s'", chat_text)
     return chat_text, chat_image  # Return chat text and image
 
 def save_screenshot(chat_image):
     """Save a screenshot of the chat region."""
     try:
-        screenshot_path = os.path.join(screenshot_directory, f"question_{time.strftime('%Y%m%d_%H%M%S')}.png")
+        screenshot_path = os.path.join(SCREENSHOT_DIRECTORY, f"question_{time.strftime('%Y%m%d_%H%M%S')}.png")
         cv2.imwrite(screenshot_path, chat_image)  # Save the screenshot
-        logging.info(f"Saved screenshot: {screenshot_path}")
-    except Exception as e:
-        logging.error(f"Error saving screenshot: {e}")
+        logging.info("Saved screenshot: %s", screenshot_path)
+    except IOError as e:
+        logging.error("Error saving screenshot: %s", e)
 
 def extract_question(chat_text, chat_image):
     """Extract the question from the chat text."""
     if "you may be teleported away" in chat_text.lower():
         start_index = chat_text.find(":") + 1
         question = chat_text[start_index:].strip()
-        logging.info(f"Extracted question: '{question}'")
-        
-        # Take a screenshot when a question is detected
-        save_screenshot(chat_image)
-        
+        logging.info("Extracted question: '%s'", question)
         return question
     return None
 
 def clean_question(question):
     """Clean the extracted question for processing."""
     cleaned_question = question.lower().replace("click here to continue", "").strip()
-    logging.info(f"Cleaned question: '{cleaned_question}'")
+    logging.info("Cleaned question: '%s'", cleaned_question)
     return cleaned_question
 
 def correct_text(text):
     """Correct the extracted text using TextBlob."""
     blob = TextBlob(text)
     corrected = str(blob.correct())
-    logging.info(f"Corrected text: '{corrected}'")
+    logging.info("Corrected text: '%s'", corrected)
     return corrected
 
 def lookup_response(question):
@@ -155,15 +152,15 @@ def lookup_response(question):
     cleaned_question = clean_question(question)
 
     # Log the cleaned question for debugging
-    logging.info(f"Looking up response for cleaned question: '{cleaned_question}'")
+    logging.info("Looking up response for cleaned question: '%s'", cleaned_question)
 
     for entry in question_responses['questions']:
         # Check if the question matches or if the keyword is present in the cleaned question
         if cleaned_question.lower() == entry['question'].lower() or entry['keyword'].lower() in cleaned_question.lower():
-            logging.info(f"Question matched: '{cleaned_question}' -> '{entry['answer']}'")
+            logging.info("Question matched: '%s' -> '%s'", cleaned_question, entry['answer'])
             return entry['answer']
 
-    logging.info(f"No match found for question: '{cleaned_question}'")
+    logging.info("No match found for question: '%s'", cleaned_question)
     return "bald"  # Return a default response if no match is found
 
 def respond_to_question(question, chat_image):
@@ -174,47 +171,55 @@ def respond_to_question(question, chat_image):
     print(f"Detected question: '{question}'")
     print(f"Responding with: '{response}'")
 
-    pyautogui.press('space')
-    time.sleep(0.5)
-    pyautogui.typewrite(response)
-    winsound.Beep(1000, 500)
-
+    if response == "bald":
+        winsound.Beep(1000, 500)
+        # Take a screenshot when a NEW question is detected
+        save_screenshot(chat_image)
+        input("Press Enter to continue...")
+    else:
+        winsound.Beep(1000, 500)
+        pyautogui.press('space')
+        time.sleep(0.5)
+        pyautogui.typewrite(response)
+        time.sleep(0.1)
+        pyautogui.press('enter')
+        time.sleep(0.5)
+        log_thieving_action(f"Responded to question: '{question}' with: '{response}' successfully!")
     # Reset inventory state after responding
-    global is_inventory_full
-    is_inventory_full = False
-
-    input("Press Enter to continue...") 
+    global IS_INVENTORY_FULL
+    IS_INVENTORY_FULL = False
+    log_thieving_action("Restarting thieving...")
 
 def check_tesseract_version():
     """Check the Tesseract version to ensure it's correctly installed."""
     try:
         version_output = subprocess.check_output([pytesseract.pytesseract.tesseract_cmd, '--version'])
-        logging.info(f"Tesseract version: {version_output.decode().strip()}")
+        logging.info("Tesseract version: %s", version_output.decode().strip())
         return True
-    except Exception as e:
-        logging.error(f"Error checking Tesseract version: {e}")
+    except subprocess.CalledProcessError as e:
+        logging.error("Error checking Tesseract version: %s", e)
         return False
 
 def thieve_from_stall(chat_text):
     """Attempt to thieve from the stall based on chat text."""
-    global click_counter, is_inventory_full
+    global CLICK_COUNTER, IS_INVENTORY_FULL
 
-    if "your inventory is full" in chat_text.lower() and not is_inventory_full:
+    if "your inventory is full" in chat_text.lower() and not IS_INVENTORY_FULL:
         logging.info("Detected full inventory. Clearing the first slot.")
         click_with_variance(*inventory_slots[0], variance=0)  # No variance for inventory clicks
         time.sleep(0.5)
         log_thieving_action("Clicked the first inventory slot due to full inventory.")
-        is_inventory_full = True
+        IS_INVENTORY_FULL = True
         return True
 
-    elif "you need to empty your coin pouch" in chat_text.lower() and not is_inventory_full:
+    elif "you need to empty your coin pouch" in chat_text.lower() and not IS_INVENTORY_FULL:
         logging.info("Detected full coin pouch. Clearing pouch.")
         click_with_variance(*inventory_slots[0], variance=0)  # No variance for inventory clicks
         time.sleep(0.5)
         log_thieving_action("Clicked the first inventory slot due to coin pouch being full.")
-        is_inventory_full = True
+        IS_INVENTORY_FULL = True
         return True
-    is_inventory_full = False  # Reset state if inventory is no longer full
+    IS_INVENTORY_FULL = False  # Reset state if inventory is no longer full
 
     logging.info("Attempting to thieve from stall.")
     click_with_variance(*stall_position)
@@ -222,16 +227,17 @@ def thieve_from_stall(chat_text):
     return False
 
 def handle_user_input():
-    global pause_thieving  # Access the global pause variable
+    """Main function to pause the thieving bot.""" 
+    global PAUSE_THIEVING  # Access the global pause variable
     if keyboard.is_pressed('left shift'):  # Check for Left Ctrl key press
         print("Pause state toggled.")
-        pause_thieving = not pause_thieving
-        logging.info(f"Pause state toggled: {'Paused' if pause_thieving else 'Running'}")
+        PAUSE_THIEVING = not PAUSE_THIEVING
+        logging.info("Pause state toggled: %s", 'Paused' if PAUSE_THIEVING else 'Running')
         time.sleep(1)  # Add a short sleep to prevent rapid toggling
 
 def main():
     """Main function to start the thieving bot.""" 
-    global click_counter  # Declare click_counter as global
+    global CLICK_COUNTER  # Declare CLICK_COUNTER as global
 
     logging.info("Thieving bot started.")
 
@@ -239,8 +245,8 @@ def main():
     if not check_tesseract_version():
         return  # Exit if Tesseract is not found
 
-    while running:
-        if pause_thieving:
+    while RUNNING:
+        if PAUSE_THIEVING:
             print("Bot is paused. Waiting for unpause...")
             logging.info("Bot paused.")
             time.sleep(1)
@@ -262,9 +268,8 @@ def main():
             question = extract_question(chat_text, chat_image)
             if question:
                 respond_to_question(question, chat_image)
-        
         thieve_from_stall(chat_text)  # Handle thieving actions
-        click_counter += 1
+        CLICK_COUNTER += 1
 
         # Rest between actions to avoid bot-like behavior
         time.sleep(random.uniform(0.5, 1.0))
