@@ -9,8 +9,8 @@ def check_and_zoom_in(steps):
     for _ in range(steps):  # Number of scroll steps
         pyautogui.scroll(200)  # Adjust this value for faster zooming
         time.sleep(0.05)  # Short sleep to avoid overwhelming the input
-    hold_up_arrow(2)  # Hold the up arrow key for 3 seconds
     print("Zoomed in and tilted up fully.")
+    hold_up_arrow(2)  # Hold the up arrow key for 3 seconds
 
 def hold_up_arrow(duration):
     """Holds the up arrow key for a specified duration.""" 
