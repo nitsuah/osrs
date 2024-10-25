@@ -213,9 +213,8 @@ def thieve_from_stall(chat_text):
     return False
 
 def handle_user_input():
-    """Handle user input to toggle pause functionality."""
     global pause_thieving  # Access the global pause variable
-    if keyboard.is_pressed('p'):  # Use 'p' to pause/resume
+    if keyboard.is_pressed('left ctrl'):  # Check for Left Ctrl key press
         print("Pause state toggled.")
         pause_thieving = not pause_thieving
         logging.info(f"Pause state toggled: {'Paused' if pause_thieving else 'Running'}")
@@ -250,7 +249,7 @@ def main():
         thieve_from_stall(chat_text)
 
         click_counter += 1
-        time.sleep(1.5)  # Thieving delay
+        time.sleep(0.5)  # Thieving delay
 
 if __name__ == "__main__":
     main()
