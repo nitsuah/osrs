@@ -91,7 +91,3 @@
 "What skill does the water can represent?", "farming"
 "What skill does the watering can represent?", "farming"
 "What skill does the wolf represent?", "summoning"
-
-
-
-

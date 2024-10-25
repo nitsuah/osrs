@@ -22,11 +22,9 @@ if __name__ == "__main__":
         click_compass(compass_coordinates)
 
         # Now zoom the camera
-        # Uncomment the line below to use a static value instead of reading from the config
-        # check_and_zoom_in(50)  # Replace 50 with your desired number of zoom steps for testing
         check_and_zoom_in(int(config['constants']['zoom_steps']))  # Pass the zoom steps
 
         # Start the main thieving loop
-        main()  # Uncomment this when zoom works as expected
+        main()
     except Exception as e:
         print(f"Error: {e}")

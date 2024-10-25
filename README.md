@@ -9,7 +9,7 @@
 
 - `git clone nitsuah/osrs`
 - `python -m venv venv`
-- `pip install pyautogui opencv-python opencv-python-headless pillow numpy pytesseract keyboard`
+- `pip install pyautogui opencv-python opencv-python-headless pillow numpy pytesseract keyboard textblob`
 
 ## functions
 

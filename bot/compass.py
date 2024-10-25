@@ -1,5 +1,5 @@
-import pyautogui
 import time
+import pyautogui
 
 def click_compass(compass_position):
     """Clicks the compass to reset the camera orientation."""
