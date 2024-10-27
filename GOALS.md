@@ -2,10 +2,6 @@
 
 ## future features
 
-### Refactor thieving.py
-
-- further to simplify it removing global functions as needed
-
 ### HEALTH CHECK
 
 - constant check of hp

@@ -18,7 +18,7 @@ def capture_screen():
         # Capture the screen using ImageGrab
         screen = ImageGrab.grab()
         screen_np = np.array(screen)
-        logging.info("Screen captured successfully.")
+        # logging.info("Screen captured successfully.")
         return cv2.cvtColor(screen_np, cv2.COLOR_BGR2RGB)
     except Exception as e:
         logging.error("Error capturing screen: %s", e)
@@ -26,7 +26,7 @@ def capture_screen():
 
 def capture_and_process_chat(screen_np, chat_region):
     x1, y1, x2, y2 = chat_region
-    logging.info(f"Captured and processed chat region: {chat_region}")
+    # logging.info(f"Captured and processed chat region: {chat_region}")
     chat_image = screen_np[y1:y2, x1:x2]  # Capture the chat region
     chat_text = pytesseract.image_to_string(chat_image)
     return chat_text, chat_image

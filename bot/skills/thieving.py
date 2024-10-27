@@ -39,7 +39,6 @@ def respond_to_question(question, chat_image):
         save_screenshot(chat_image)
         input("Press Enter to continue...")
     else:
-        winsound.Beep(1000, 500)
         time.sleep(1)
         pyautogui.press('space')
         time.sleep(1)
@@ -50,6 +49,7 @@ def respond_to_question(question, chat_image):
 def handle_user_input():
     global PAUSE_THIEVING
     if keyboard.is_pressed('left shift'):
+        winsound.Beep(1000, 500)
         PAUSE_THIEVING = not PAUSE_THIEVING
         time.sleep(1)
 
@@ -69,12 +69,17 @@ def main():
             continue
 
         # Pass the chat region to the capture function
-        chat_text, chat_image = capture_and_process_chat(screen_np, chat_region)
+        chat_text, chat_image = capture_and_process_chat(screen_np, chat_region)   
+        # Check if a question prompt needs a response
         if "you may be teleported away" in chat_text.lower():
-            question = chat_text.split(":", 1)[1].strip()
+            if ":" in chat_text:
+                question = chat_text.split(":", 1)[1].strip()
+            else:
+                question = chat_text.strip()  # Fallback if no colon is found
             respond_to_question(question, chat_image)
-        thieve_from_stall(chat_text)
-        CLICK_COUNTER += 1
+
+        # Update CLICK_COUNTER with the returned value from thieve_from_stall
+        CLICK_COUNTER = thieve_from_stall(chat_text, CLICK_COUNTER)
         time.sleep(random.uniform(0.2, 0.8))
 
 if __name__ == "__main__":

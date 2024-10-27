@@ -1,6 +1,7 @@
 import random
 import time
 import pyautogui
+import logging
 from bot.config import load_config
 
 # Load configuration
@@ -18,9 +19,23 @@ def click_with_variance(x, y, variance=5):
     y += random.randint(-variance, variance)
     pyautogui.click(x, y)
 
-def thieve_from_stall(chat_text):
-    if "your inventory is full" in chat_text.lower():
-        click_with_variance(*inventory_slots[0], variance=0)
-        return True
-    click_with_variance(*stall_position)
-    return False
+def thieve_from_stall(chat_text, click_counter):
+    # If the coin pouch is full, clear it by clicking the first slot
+    if "empty your coin" in chat_text.lower() and click_counter > 10:
+        click_with_variance(*inventory_slots[0], variance=0)  # Clears inventory slot
+        time.sleep(random.uniform(0.1, 0.4))  # Add delay after clearing
+        click_with_variance(*inventory_slots[0], variance=0)  # Confirms inventory slot is cleared
+        time.sleep(random.uniform(0.1, 0.4))  # Add delay after clearing
+        logging.info("Cleared inventory slot and resuming thieving.")
+        return 0  # Reset click counter
+    elif "inventory" in chat_text.lower() and click_counter > 10:
+        time.sleep(random.uniform(0.1, 0.4))  # Add delay before clearing
+        pyautogui.typewrite("::empty")
+        time.sleep(random.uniform(0.4, 0.5))  # Add delay after clearing
+        pyautogui.press('enter')
+        logging.info("Emptied inventory and resuming thieving.")
+        return 0  # Reset click counter
+    else:
+        # Continue thieving
+        click_with_variance(*stall_position)
+        return click_counter + 1  # Increment counter if thieving
