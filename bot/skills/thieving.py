@@ -35,16 +35,17 @@ def respond_to_question(question, chat_image):
     print(f"Responding with: '{response}'")
 
     if response == "bald":
-        winsound.Beep(1000, 500)
+        winsound.Beep(1000, 1000)
         save_screenshot(chat_image)
         input("Press Enter to continue...")
     else:
-        time.sleep(1)
+        time.sleep(0.5)
         pyautogui.press('space')
         time.sleep(1)
         pyautogui.typewrite(response)
         time.sleep(1)
         pyautogui.press('enter')
+        time.sleep(1)
 
 def handle_user_input():
     global PAUSE_THIEVING
@@ -71,16 +72,18 @@ def main():
         # Pass the chat region to the capture function
         chat_text, chat_image = capture_and_process_chat(screen_np, chat_region)   
         # Check if a question prompt needs a response
-        if "you may be teleported away" in chat_text.lower():
+        if "teleported" in chat_text.lower():
             if ":" in chat_text:
                 question = chat_text.split(":", 1)[1].strip()
             else:
                 question = chat_text.strip()  # Fallback if no colon is found
             respond_to_question(question, chat_image)
+            time.sleep(random.uniform(0.5, 0.8))
+            # maybe need to pause unpause thieving in this loop?
 
         # Update CLICK_COUNTER with the returned value from thieve_from_stall
         CLICK_COUNTER = thieve_from_stall(chat_text, CLICK_COUNTER)
-        time.sleep(random.uniform(0.2, 0.8))
+        time.sleep(random.uniform(0.5, 0.8))
 
 if __name__ == "__main__":
     main()
