@@ -13,6 +13,7 @@ inventory_slots = [
     for i in range(2)  # Adjust range if you have more slots
 ]
 stall_position = tuple(map(int, config['coordinates']['stall_position'].split(',')))
+fish_spot_1 = tuple(map(int, config['coordinates']['fish_spot_1'].split(',')))
 
 def click_with_variance(x, y, variance=5):
     x += random.randint(-variance, variance)
@@ -39,3 +40,18 @@ def thieve_from_stall(chat_text, click_counter):
         # Continue thieving
         click_with_variance(*stall_position)
         return click_counter + 1  # Increment counter if thieving
+
+def fish_from_spot(chat_text, click_counter):
+    # If the inventory pouch is full, clear it by clicking typing empty
+    if "inventory" in chat_text.lower() and click_counter > 15:
+        time.sleep(random.uniform(0.1, 0.4))  # Add delay before clearing
+        pyautogui.typewrite("::empty") # replace with banking
+        time.sleep(random.uniform(0.4, 0.5))  # Add delay after clearing
+        pyautogui.press('enter')
+        logging.info("Emptied inventory and resuming fishing.")
+        return 0  # Reset click counter
+    else:
+        # Continue fishing
+        click_with_variance(*fish_spot_1)
+        time.sleep(60)
+        return click_counter + 1  # Increment counter if fishing

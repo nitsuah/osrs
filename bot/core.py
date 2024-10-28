@@ -3,7 +3,8 @@ import os
 import logging
 from bot.camera import check_and_zoom_in  # Import the zoom function
 from bot.compass import click_compass
-from bot.skills.thieving import main  # Import main function from thieving
+from bot.skills.thieving import Theft  # Import main function from thieving
+from bot.skills.fishing import Fish  # Import main function from fishing
 
 def load_config(filename):
     config = configparser.ConfigParser()
@@ -25,7 +26,9 @@ if __name__ == "__main__":
         # Now zoom the camera
         check_and_zoom_in(int(config['constants']['zoom_steps']))  # Pass the zoom steps
 
+        # Start the main fishing loop
+        Fish()
         # Start the main thieving loop
-        main()
+        # Theft()
     except Exception as e:
         logging.info(f"Error: {e}")
