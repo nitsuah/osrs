@@ -15,8 +15,8 @@ logging.basicConfig(level=logging.INFO)
 # Load configuration
 config = load_config("config.ini")
 
-# Debugging line to print the raw value
-print("Chat region raw value:", config["coordinates"]["chat_region"])
+# Debugging line to logging.info the raw value
+logging.info("Chat region raw value: %s", config["coordinates"]["chat_region"])
 
 # Strip any comments and handle leading/trailing whitespace
 raw_chat_region = config["coordinates"]["chat_region"].split('#')[0].strip()
@@ -30,9 +30,8 @@ question_responses = load_question_responses()
 
 def respond_to_question(question, chat_image):
     response = lookup_response(question, question_responses)
-    response = correct_text(response)
-    print(f"Detected question: '{question}'")
-    print(f"Responding with: '{response}'")
+    logging.info(f"Detected question: '{question}'")
+    logging.info(f"Responding with: '{response}'")
 
     if response == "bald":
         winsound.Beep(500, 500)
@@ -73,15 +72,15 @@ def main():
         chat_text, chat_image = capture_and_process_chat(screen_np, chat_region)   
         # Check if a question prompt needs a response
         if "teleported" in chat_text.lower():
-            print("Question prompt detected.")
+            logging.info("Question prompt detected.")
             if ":" in chat_text:
                 question = chat_text.split(":", 1)[1].strip()
             else:
                 question = chat_text.strip()  # Fallback if no colon is found
-            print("Responding to question...")
+            logging.info("Responding to question...")
             respond_to_question(question, chat_image)
             time.sleep(random.uniform(0.5, 0.8))
-            print("Continue thieving...")
+            logging.info("Continue thieving...")
             continue
             # maybe need to pause unpause thieving in this loop?
 

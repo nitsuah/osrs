@@ -1,5 +1,6 @@
 import configparser
 import os
+import logging
 
 def load_config(filename="config.ini"):
     config = configparser.ConfigParser()

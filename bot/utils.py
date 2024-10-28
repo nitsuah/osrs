@@ -10,9 +10,9 @@ def load_config(filename):
     if 'constants' not in config or 'coordinates' not in config:
         raise KeyError("Missing required sections in the configuration file.")
     
-    # Print the available keys for debugging
-    print("Available keys in 'constants' section:", list(config['constants'].keys()))
-    print("Available keys in 'coordinates' section:", list(config['coordinates'].keys()))
+    # logging.info the available keys for debugging
+    logging.info("Available keys in 'constants' section:", list(config['constants'].keys()))
+    logging.info("Available keys in 'coordinates' section:", list(config['coordinates'].keys()))
 
     # Retrieve and validate configuration values
     try:

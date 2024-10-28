@@ -1,5 +1,6 @@
 import configparser
 import os
+import logging
 from bot.camera import check_and_zoom_in  # Import the zoom function
 from bot.compass import click_compass
 from bot.skills.thieving import main  # Import main function from thieving
@@ -11,10 +12,10 @@ def load_config(filename):
     return config
 
 if __name__ == "__main__":
-    print("Current working directory:", os.getcwd())  # Debugging output
+    logging.info("Current working directory: %s", os.getcwd())  # Debugging output
     try:
         config = load_config("config.ini")
-        print("Loaded config sections:", config.sections())  # Debugging output
+        logging.info("Loaded config sections: %s", config.sections())  # Debugging output
 
         # Load compass coordinates from the coordinates section
         compass_coordinates = tuple(map(int, config['coordinates']['compass_position'].split(',')))
@@ -27,4 +28,4 @@ if __name__ == "__main__":
         # Start the main thieving loop
         main()
     except Exception as e:
-        print(f"Error: {e}")
+        logging.info(f"Error: {e}")
