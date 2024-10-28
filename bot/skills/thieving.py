@@ -35,7 +35,7 @@ def respond_to_question(question, chat_image):
     print(f"Responding with: '{response}'")
 
     if response == "bald":
-        winsound.Beep(1000, 1000)
+        winsound.Beep(500, 500)
         save_screenshot(chat_image)
         input("Press Enter to continue...")
     else:
@@ -73,12 +73,16 @@ def main():
         chat_text, chat_image = capture_and_process_chat(screen_np, chat_region)   
         # Check if a question prompt needs a response
         if "teleported" in chat_text.lower():
+            print("Question prompt detected.")
             if ":" in chat_text:
                 question = chat_text.split(":", 1)[1].strip()
             else:
                 question = chat_text.strip()  # Fallback if no colon is found
+            print("Responding to question...")
             respond_to_question(question, chat_image)
             time.sleep(random.uniform(0.5, 0.8))
+            print("Continue thieving...")
+            continue
             # maybe need to pause unpause thieving in this loop?
 
         # Update CLICK_COUNTER with the returned value from thieve_from_stall

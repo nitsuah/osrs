@@ -21,14 +21,14 @@ def click_with_variance(x, y, variance=5):
 
 def thieve_from_stall(chat_text, click_counter):
     # If the coin pouch is full, clear it by clicking the first slot
-    if "empty your coin" in chat_text.lower() and click_counter > 10:
+    if "empty your coin" in chat_text.lower() and click_counter > 15:
         click_with_variance(*inventory_slots[0], variance=0)  # Clears inventory slot
         time.sleep(random.uniform(0.1, 0.4))  # Add delay after clearing
         click_with_variance(*inventory_slots[0], variance=0)  # Confirms inventory slot is cleared
         time.sleep(random.uniform(0.1, 0.4))  # Add delay after clearing
         logging.info("Cleared inventory slot and resuming thieving.")
         return 0  # Reset click counter
-    elif "inventory" in chat_text.lower() and click_counter > 10:
+    elif "inventory" in chat_text.lower() and click_counter > 15:
         time.sleep(random.uniform(0.1, 0.4))  # Add delay before clearing
         pyautogui.typewrite("::empty")
         time.sleep(random.uniform(0.4, 0.5))  # Add delay after clearing

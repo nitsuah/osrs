@@ -61,6 +61,7 @@
     {"question": "How many laws to cast teleblock?", "answer": "1", "type": "numeric", "keyword": "laws"},
     {"question": "How many fire runes to cast high alchemy?", "answer": "5", "type": "numeric", "keyword": "fire rune"},
     {"question": "How many inventory slots do you have?", "answer": "28", "type": "numeric", "keyword": "slots"},
+    {"question": "What skill is below Strength?", "answer": "Defence", "type": "skills", "keyword": "Strength"},
     {"question": "What skill does the sword represent?", "answer": "attack", "type": "skills", "keyword": "sword"},
     {"question": "What skill does the fist represent?", "answer": "strength", "type": "skills", "keyword": "fist"},
     {"question": "What skill does the shield represent?", "answer": "defence", "type": "skills", "keyword": "shield"},

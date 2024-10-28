@@ -14,10 +14,12 @@ def load_question_responses():
         return {}
 
 def clean_question(question):
+    print(f"Cleaning question: '{question}'")
     return question.replace("Click here to continue", "").strip()
 
 def correct_text(text):
     blob = TextBlob(text)
+    print(f"Correcting text using blob: '{text}' to '{str(blob.correct())}'")
     return str(blob.correct())
 
 def lookup_response(question, question_responses):
