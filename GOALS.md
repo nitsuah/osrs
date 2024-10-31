@@ -8,6 +8,14 @@
 - spell/grammar check on question detected
 - if new push to LLM/answer-bot?
 
+### AUTO CG
+  
+- increase the number of interactive targeted skills to the Clan Guild location
+- fishing x4, woodcutting x3, cooking, smithing, firemaking, mining x4
+- there is also a bank so bank and deposit instead of empty
+- need to add a check for the bank and the bank booth
+- use cg teleport to reset rhythm
+
 ### HEALTH CHECK
 
 - constant check of hp
@@ -28,18 +36,6 @@
 - teleport to castle wars, trade mule, trade back, teleport back using reset function
 - trade screen setup and functionality or DROP trade and have bot spam pickup
 - need uncommon location for mule to avoid detection (Castle Wars? needs to be same spot everytime)
-
-### MACRO RECORDER
-
-- record mouse movements and clicks
-- helps to scale future development by recording actions to assess interaction
-
-### AUTO CG
-  
-- increase the number of interactive targeted skills to the Clan Guild location
-- fishing x4, woodcutting x3, cooking, smithing, firemaking, mining x4
-- there is also a bank so any activity that requires banking can be done here (ex: herblore, fletching, crafting, etc)
-- need to add a check for the bank and the bank booth
 
 ### NEW ACCOUNT SETUP
 

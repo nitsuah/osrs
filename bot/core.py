@@ -27,8 +27,8 @@ if __name__ == "__main__":
         check_and_zoom_in(int(config['constants']['zoom_steps']))  # Pass the zoom steps
 
         # Start the main fishing loop
-        Fish()
+        # Fish()
         # Start the main thieving loop
-        # Theft()
+        Theft()
     except Exception as e:
         logging.info(f"Error: {e}")
