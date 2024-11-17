@@ -28,7 +28,7 @@
 
 ### BANKING
 
-- onyx protection before ::empty? bank it?
+- onyx protection - pausing + sound
 
 ### MULE DUMP
 
