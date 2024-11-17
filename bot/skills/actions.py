@@ -2,6 +2,7 @@ import random
 import time
 import pyautogui
 import logging
+import winsound
 from bot.config import load_config
 
 # Load configuration
@@ -36,6 +37,11 @@ def thieve_from_stall(chat_text, click_counter):
         pyautogui.press('enter')
         logging.info("Emptied inventory and resuming thieving.")
         return 0  # Reset click counter
+    elif "onyx" in chat_text.lower() and click_counter > 15:
+        logging.info("Found an onyx, stopping bot.")
+        winsound.Beep(1000, 500)
+        input("Press Enter to continue...")
+        return 0 # Reset click counter
     else:
         # Continue thieving
         click_with_variance(*stall_position)
