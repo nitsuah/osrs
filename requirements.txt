@@ -1,0 +1,9 @@
+pyautogui
+opencv-python
+opencv-python-headless
+pillow
+numpy
+pytesseract
+keyboard
+textblob
+pygetwindow
