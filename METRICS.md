@@ -18,7 +18,6 @@
 | PR Turnaround  | 0 days   |
 | Skipped Tests  | 0        |
 | Health Score   | 0/100    |
-
 <!--
 AGENT INSTRUCTIONS:
 This file tracks project health metrics using a structured table format.
@@ -37,23 +36,6 @@ PARSEABLE METRIC NAMES (case-insensitive):
 - "Bundle Size" → Performance metric
 - "Open Issues" → Health indicator
 - "Health Score" → Overall health
-
-GOOD EXAMPLES:
-## Core Metrics
-
-| Metric         | Value  |
-| -------------- | ------ |
-| Code Coverage  | 87.5%  |
-| Build Time     | 6.2s   |
-| Test Files     | 4      |
-
-## Health
-
-| Metric         | Value    |
-| -------------- | -------- |
-| Open Issues    | 3        |
-| Health Score   | 95/100   |
-
 BAD EXAMPLES (may not parse correctly):
 ### Core Metrics (wrong heading level)
 Metric: Code Coverage
