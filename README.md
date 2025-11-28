@@ -20,10 +20,10 @@ A Python-based bot designed to automate tasks and interact intelligently with th
 
 ## Setup
 
-1. Clone the repository:
-  - `git clone https://github.com/nitsuah/osrs.git`
+1. Clone the repository: `git clone https://github.com/nitsuah/osrs.git`
 
 2. Create and activate a virtual environment:
+
    ```bash
    python -m venv venv
    source venv/bin/activate   # Linux/Mac
@@ -31,6 +31,7 @@ A Python-based bot designed to automate tasks and interact intelligently with th
    ```
 
 3. Install required Python packages:
+
    ```bash
    pip install -r requirements.txt
    ```
@@ -106,6 +107,7 @@ To automate a specific skill:
 `python bot/skills/fishing.py`
 
 Project Layout
+
 ```plaintext
 ├── bot/
 │   ├── core.py          # Main entry point
