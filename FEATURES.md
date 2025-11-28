@@ -1,46 +1,48 @@
-# Features
+# OSRS Bot Features
 
-## Core Capabilities
+## Automation Core
 
-### 📊 Feature Category Name
+### 🎯 Skill Automation
 
-Brief description of this category (optional).
+- **Thieving Bot**: Automates stealing from stalls with inventory management, rare item detection (Onyx), and chat monitoring
+- **Fishing Bot**: Automates fishing from spots with 60-second intervals and inventory full detection
+- **Click Variance**: Randomized click positions (±5 pixels) to mimic human interaction patterns
+- **Pause/Resume Control**: F1 key toggles bot activity with audio feedback
 
-- **Feature Name**: Description of what it does and how it works
-- **Another Feature**: More details about functionality
+### � Computer Vision & OCR
 
-### 🎯 Another Category
+- **Screen Capture**: Real-time screen capture using PIL ImageGrab with NumPy processing
+- **Chat Region Parsing**: Extracts and processes chat text from configurable screen regions
+- **Tesseract OCR Integration**: Text recognition for detecting game prompts and questions
+- **Screenshot Saving**: Captures chat images for debugging unknown questions
 
-- **Feature One**: Clear, concise description
-- **Feature Two**: Benefits and use cases
+## Intelligence Systems
 
-<!--
-AGENT INSTRUCTIONS:
-This file documents features using a structured format for parsing.
+### 🤖 Anti-Detection
 
-CRITICAL FORMAT REQUIREMENTS:
-1. Use ### (h3) for category headers - DO NOT use ## or ####
-2. Category names can include emojis (e.g., "### 📊 Repository Intelligence")
-3. Each feature MUST be a bullet list item: "- **Feature Name**: Description"
-4. Keep feature descriptions on single lines for reliable parsing
-5. You can add brief category descriptions as regular text after the header
-6. Avoid nested lists or complex markdown that breaks parsing
+- **Question Handler**: Detects and responds to in-game anti-bot questions using keyword matching
+- **Response Database**: JSON-based question/answer library for automated responses
+- **Text Correction**: TextBlob integration for spell-checking OCR output (in development)
+- **Human-like Timing**: Random delays (0.5-0.8s) between actions to avoid detection patterns
 
-GOOD EXAMPLES:
-### 🤖 AI-Powered Features
-- **Smart Summaries**: Google Gemini-powered repository analysis
-- **Auto-categorization**: Detects repo type (web-app, game, tool, etc.)
+### ⚙️ Game State Management
 
-BAD EXAMPLES (will break parser):
-## AI Features (wrong heading level)
-- Feature without bold name and colon
-  - Nested sub-item (not supported)
-- Multi-line feature
-  that spans lines (avoid this)
+- **Compass Reset**: Automatically clicks compass to reset camera orientation to North
+- **Camera Control**: Zooms in with configurable scroll steps and tilts camera upward
+- **Inventory Detection**: Monitors chat for "inventory is full" messages
+- **Teleport Detection**: Recognizes when player is teleported and halts automation
 
-When adding features:
-1. Group related features under appropriate ### categories
-2. Use bold (**Feature Name**) followed by colon and description
-3. Keep descriptions concise and single-line
-4. Add emojis to category headers for visual appeal (optional)
--->
+## Configuration & Utilities
+
+### 📐 Configuration System
+
+- **INI-based Config**: Centralized configuration for coordinates, constants, and settings
+- **Chat Region Definition**: Customizable screen regions for OCR parsing
+- **Zoom Steps**: Configurable camera zoom increments
+- **Coordinate Management**: Stores click positions for compass, stalls, and fishing spots
+
+### 🛠️ Development Tools
+
+- **Mouse Click Recorder**: Records and saves click coordinates for configuration setup
+- **Logging System**: Comprehensive logging for debugging bot behavior
+- **Modular Architecture**: Separated concerns (skills, vision, config, actions)

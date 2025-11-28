@@ -1,57 +1,70 @@
 # Tasks
 
-## Todo
+## Done
 
-- [ ] Implement new feature X
-- [ ] Fix bug in module Y
-- [ ] Add tests for component Z
+- [x] Set up Python project with virtual environment
+- [x] Configure Tesseract OCR for text recognition
+- [x] Implement screen capture and chat region processing
+- [x] Create thieving bot with stall automation
+- [x] Create fishing bot with spot automation
+- [x] Build compass click functionality for camera reset
+- [x] Build camera zoom and tilt controls
+- [x] Implement click variance for human-like behavior
+- [x] Create question/answer handler system
+- [x] Add JSON-based question response database
+- [x] Implement inventory full detection
+- [x] Add rare item detection (Onyx) with alerts
+- [x] Create configuration system with INI file
+- [x] Add pause/resume functionality with F1 key
 
 ## In Progress
 
-- [ ] Refactoring database layer
-- [ ] Updating documentation
+- [ ] Improve OCR accuracy with spell correction (TextBlob integration)
+- [ ] Refine question detection patterns
+- [ ] Test and validate anti-bot detection evasion
 
-## Done
-
-- [x] Set up CI/CD pipeline
-- [x] Created initial project structure
-
-<!--
-AGENT INSTRUCTIONS:
-This file tracks specific actionable tasks using a structured format.
-
-CRITICAL FORMAT REQUIREMENTS:
-1. Use EXACTLY these section names: "## Todo", "## In Progress", "## Done"
-2. Tasks MUST use checkbox format: "- [ ]" for incomplete, "- [x]" for complete
-3. Keep task titles on single lines`
-1. Section headers must be ## (h2) level
-
-STATUS MARKERS:
-- [ ] = todo (not started)
-- [/] = in-progress (actively working) - OPTIONAL, use "In Progress" section instead
-- [x] = done (completed)
-
-GOOD EXAMPLES:
 ## Todo
-- [ ] Add user authentication
-- [ ] Implement dark mode
 
-## In Progress
-- [ ] Refactor API endpoints
+### Phase 1: Health & Recovery
 
-## Done
-- [x] Set up database schema
+- [ ] Implement HP monitoring system
+- [ ] Add food consumption logic when HP is low
+- [ ] Create hard reset functionality (teleport recovery)
+- [ ] Add XP tracking to detect stuck states
+- [ ] Implement auto-logout on critical errors
 
-BAD EXAMPLES (will break parser):
-### Todo (wrong heading level)
-* [ ] Task (wrong bullet marker)
-- Task without checkbox
-- [ ] Multi-line task
-      with continuation (avoid this)
+### Phase 2: Clan Guild Functions
 
-When updating:
-1. Move tasks between sections as status changes
-2. Mark completed tasks with [x] and move to "Done"
-3. Add new tasks to "Todo" section
-4. Keep descriptions actionable and concise
--->
+- [ ] Build CG reset function (::cg command automation)
+- [ ] Implement CG banking workflow
+- [ ] Add deposit all inventory function
+- [ ] Create coordinated click sequences for bank interaction
+
+### Phase 3: Additional Skills
+
+- [ ] Add woodcutting automation (3 tree types)
+- [ ] Add mining automation (4 rock types)
+- [ ] Implement cooking skill bot
+- [ ] Implement smithing skill bot
+- [ ] Add firemaking automation
+- [ ] Create crafting skill support
+- [ ] Add fletching skill bot
+- [ ] Implement herblore automation
+- [ ] Create runecrafting bot
+- [ ] Add agility course navigation
+
+### Phase 4: Multi-Account Features
+
+- [ ] Create mule account trading system
+- [ ] Implement trade window detection and interaction
+- [ ] Add Castle Wars teleport for mule meetup
+- [ ] Create cash stack threshold monitoring
+- [ ] Implement drop trading as backup
+
+### Phase 5: Deployment & Scaling
+
+- [ ] Dockerize the bot application
+- [ ] Create auto-deployment scripts
+- [ ] Add multi-account orchestration
+- [ ] Implement account creation automation
+- [ ] Build credential storage system
