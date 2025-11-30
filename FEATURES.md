@@ -9,7 +9,7 @@
 - **Click Variance**: Randomized click positions (±5 pixels) to mimic human interaction patterns
 - **Pause/Resume Control**: F1 key toggles bot activity with audio feedback
 
-### � Computer Vision & OCR
+### 👁️ Computer Vision & OCR
 
 - **Screen Capture**: Real-time screen capture using PIL ImageGrab with NumPy processing
 - **Chat Region Parsing**: Extracts and processes chat text from configurable screen regions

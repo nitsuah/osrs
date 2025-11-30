@@ -4,8 +4,8 @@
 
 | Metric              | Value | Notes                                      |
 | ------------------- | ----- | ------------------------------------------ |
-| Code Coverage       | N/A   | No test suite implemented yet              |
-| Lines of Code       | ~396  | Python code in bot/ directory              |
+| Code Coverage       | 0%    | No test suite implemented yet              |
+| Lines of Code       | 396   | Python code in bot/ directory              |
 | Python Files        | 11    | Core bot modules                           |
 | Config Files        | 1     | INI configuration file                     |
 | Question Database   | 127   | Anti-bot question/answer pairs             |
