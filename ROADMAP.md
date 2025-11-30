@@ -19,6 +19,7 @@
 
 ## 2026Q2: 🏗️ v2.0 - Enhancement Phase
 
+> **Note:** Major version bump to v2.0 reflects significant architectural enhancements and new core features introduced in this phase.
 - [x] Question response system with JSON database
 - [ ] Improved OCR accuracy with spell correction
 - [ ] Health monitoring system (HP tracking)
