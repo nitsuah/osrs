@@ -34,7 +34,7 @@
 - [ ] Crafting and Fletching support
 - [ ] Additional combat skills
 
-## 2026Q4: 🤖 Advanced Features
+## 2026Q4: 🤖 v2.2 - Advanced Features
 
 - [ ] Mule account trading system
 - [ ] Auto-deployment with Docker
