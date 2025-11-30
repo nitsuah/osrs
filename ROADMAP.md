@@ -26,7 +26,7 @@
 - [ ] Hard reset functionality (teleport and recovery)
 - [ ] Clan Guild (CG) functions for banking
 
-## 2026Q3: 📚 Multi-Skill Expansion
+## 2026Q3: 📚 v2.1 - Multi-Skill Expansion
 
 - [ ] Woodcutting automation
 - [ ] Mining automation  
