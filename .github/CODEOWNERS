@@ -1,0 +1,50 @@
+# CODEOWNERS
+
+> This file defines who owns and should review changes to specific files or directories.
+> Learn more: [CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)
+
+# Global owners - these users will be requested for review on all PRs
+* @nitsuah
+
+# Documentation
+*.md @nitsuah
+/docs/ @nitsuah
+
+# Configuration files
+*.json @nitsuah
+*.yaml @nitsuah
+*.yml @nitsuah
+*.toml @nitsuah
+
+# CI/CD workflows
+/.github/workflows/ @nitsuah
+
+# Source code - Python specific
+/src/ @nitsuah
+/lib/ @nitsuah
+/app/ @nitsuah
+/components/ @nitsuah
+*.py @nitsuah
+
+# Database
+/database/ @nitsuah
+*.sql @nitsuah
+
+# Tests
+/tests/ @nitsuah
+/test/ @nitsuah
+*.test.* @nitsuah
+*.spec.* @nitsuah
+
+# Infrastructure & deployment
+/infrastructure/ @nitsuah
+/terraform/ @nitsuah
+Dockerfile @nitsuah
+docker-compose*.yml @nitsuah
+
+# Security-sensitive files
+/SECURITY.md @nitsuah
+/.github/workflows/ @nitsuah
+
+# Default owner for everything else
+* @nitsuah
