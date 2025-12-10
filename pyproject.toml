@@ -1,0 +1,29 @@
+[tool.ruff]
+line-length = 120
+fix = true
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+    "C4",  # flake8-comprehensions
+]
+ignore = ["E203"]
+
+[tool.ruff.format]
+quote-style = "preserve"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.black]
+line-length = 120
+target-version = ['py310']
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+line_length = 120
