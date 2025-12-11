@@ -1,5 +1,5 @@
 import configparser
-import os
+import logging
 
 def load_config(filename):
     """Load configuration from the specified INI file."""
@@ -10,9 +10,9 @@ def load_config(filename):
     if 'constants' not in config or 'coordinates' not in config:
         raise KeyError("Missing required sections in the configuration file.")
     
-    # logging.info the available keys for debugging
-    logging.info("Available keys in 'constants' section:", list(config['constants'].keys()))
-    logging.info("Available keys in 'coordinates' section:", list(config['coordinates'].keys()))
+    # Log the available keys for debugging
+    logging.info("Available keys in 'constants' section: %s", list(config['constants'].keys()))
+    logging.info("Available keys in 'coordinates' section: %s", list(config['coordinates'].keys()))
 
     # Retrieve and validate configuration values
     try:
