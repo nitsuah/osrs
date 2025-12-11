@@ -7,3 +7,5 @@ pytesseract
 keyboard
 textblob
 pygetwindow
+pytest
+pytest-cov
