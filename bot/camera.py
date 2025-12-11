@@ -4,18 +4,18 @@ import pyautogui
 import keyboard
 
 
-def check_and_zoom_in(steps):
+def check_and_zoom_in(steps: int) -> None:
     """Zoom in using scroll based on the number of steps provided."""
-    logging.info(f"Attempting to zoom in with {steps} steps.")  # Log the number of steps
-    for _ in range(steps):  # Number of scroll steps
-        pyautogui.scroll(200)  # Adjust this value for faster zooming
-        time.sleep(0.05)  # Short sleep to avoid overwhelming the input
+    logging.info("Attempting to zoom in with %s steps.", steps)
+    for _ in range(steps):
+        pyautogui.scroll(200)
+        time.sleep(0.05)
     logging.info("Zoomed in and tilted up fully.")
-    hold_up_arrow(2)  # Hold the up arrow key for 3 seconds
+    hold_up_arrow(2)
 
-def hold_up_arrow(duration):
-    """Holds the up arrow key for a specified duration.""" 
-    keyboard.press('up')  # Use string representation for the key
+def hold_up_arrow(duration: int) -> None:
+    """Holds the up arrow key for a specified duration."""
+    keyboard.press('up')
     time.sleep(duration)
     keyboard.release('up')
-    logging.info(f"Held the up arrow key for {duration} seconds.")
+    logging.info("Held the up arrow key for %s seconds.", duration)
