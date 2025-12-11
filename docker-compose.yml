@@ -1,1 +1,12 @@
-# No code changes required. Rename the file from `docker-compose.yml` to `Dockerfile`.
+version: '3.8'
+services:
+	osrs-bot:
+		build:
+			context: .
+			dockerfile: Dockerfile
+		image: osrs-bot:latest
+		environment:
+			- ENV=development
+		volumes:
+			- ./:/app
+		command: python -m bot.core

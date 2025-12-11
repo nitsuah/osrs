@@ -50,4 +50,3 @@ repos:
       - id: bandit
         name: bandit (python)
         language_version: python3
-        args: ["-c", "pyproject.toml"] #Example of using a config file

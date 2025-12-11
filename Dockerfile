@@ -3,7 +3,7 @@
 # ================================
 # Stage 1: Dependencies
 # ================================
-FROM python:3.11-slim-bookworm AS deps
+FROM python:3.10-slim-bookworm AS deps
 WORKDIR /app
 
 # Copy dependency definition
