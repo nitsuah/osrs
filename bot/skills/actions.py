@@ -16,12 +16,14 @@ inventory_slots = [
 stall_position = tuple(map(int, config['coordinates']['stall_position'].split(',')))
 fish_spot_1 = tuple(map(int, config['coordinates']['fish_spot_1'].split(',')))
 
-def click_with_variance(x, y, variance=5):
+
+def click_with_variance(x: int, y: int, variance: int = 5) -> None:
     x += random.randint(-variance, variance)
     y += random.randint(-variance, variance)
     pyautogui.click(x, y)
 
-def thieve_from_stall(chat_text, click_counter):
+
+def thieve_from_stall(chat_text: str, click_counter: int) -> int:
     # If the coin pouch is full, clear it by clicking the first slot
     if "empty your coin" in chat_text.lower() and click_counter > 15:
         click_with_variance(*inventory_slots[0], variance=0)  # Clears inventory slot
@@ -41,17 +43,18 @@ def thieve_from_stall(chat_text, click_counter):
         logging.info("Found an onyx, stopping bot.")
         winsound.Beep(1000, 500)
         input("Press Enter to continue...")
-        return 0 # Reset click counter
+        return 0  # Reset click counter
     else:
         # Continue thieving
         click_with_variance(*stall_position)
         return click_counter + 1  # Increment counter if thieving
 
-def fish_from_spot(chat_text, click_counter):
+
+def fish_from_spot(chat_text: str, click_counter: int) -> int:
     # If the inventory pouch is full, clear it by clicking typing empty
     if "inventory" in chat_text.lower() and click_counter > 15:
         time.sleep(random.uniform(0.1, 0.4))  # Add delay before clearing
-        pyautogui.typewrite("::empty") # replace with banking
+        pyautogui.typewrite("::empty")  # replace with banking
         time.sleep(random.uniform(0.4, 0.5))  # Add delay after clearing
         pyautogui.press('enter')
         logging.info("Emptied inventory and resuming fishing.")
