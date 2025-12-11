@@ -33,8 +33,8 @@ ENV PATH="/app:/opt/venv/bin:$PATH"
 # Switch to non-root user
 USER appuser
 
-# Expose the application port - placeholder, adjust if needed
-EXPOSE 8080
+# Expose the application port - standardized to 5000
+EXPOSE 5000
 
 # Define entrypoint command
 CMD ["python", "main.py"]
