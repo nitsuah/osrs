@@ -1,5 +1,7 @@
 # OSRS Bot
 
+[![Deploy Status](https://github.com/nitsuah/osrs/actions/workflows/deploy.yml/badge.svg)](https://github.com/nitsuah/osrs/actions)
+
 A Python-based bot designed to automate tasks and interact intelligently with the Old School RuneScape (OSRS) game. This project leverages computer vision and natural language processing to handle in-game actions and queries to avoid bot detection.
 
 ---
