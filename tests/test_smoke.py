@@ -1,4 +1,4 @@
 def test_imports():
-    import bot.utils
-    import bot.core
-    assert True
+    import importlib
+    assert importlib.import_module('bot.utils')
+    assert importlib.import_module('bot.core')
