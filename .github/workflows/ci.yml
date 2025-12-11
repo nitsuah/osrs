@@ -39,4 +39,4 @@ jobs:
     - name: Build with pyinstaller
       run: |
         pip install pyinstaller
-        pyinstaller --onefile main.py # Replace main.py with your entry point if different
+        pyinstaller --onefile -n osrs-bot bot/core.py
