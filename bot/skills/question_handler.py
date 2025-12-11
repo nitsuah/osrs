@@ -32,7 +32,7 @@ def lookup_response(question: str, question_responses: dict) -> str:
     corrected_question = correct_text(question)
     logging.info("Corrected Question: '%s'", corrected_question)
     for entry in question_responses['questions']:
-        # logging the check for debugging
+        # Logging the check for debugging.
         if cleaned_question == entry['question'].lower():
             return entry['answer']  # Return the exact answer
         elif entry['keyword'].lower() in cleaned_question:
