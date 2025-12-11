@@ -1,12 +1,12 @@
 version: '3.8'
 services:
-	osrs-bot:
-		build:
-			context: .
-			dockerfile: Dockerfile
-		image: osrs-bot:latest
-		environment:
-			- ENV=development
-		volumes:
-			- ./:/app
-		command: python -m bot.core
+  osrs-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: osrs-bot:latest
+    environment:
+      - ENV=development
+    volumes:
+      - ./:/app
+    command: python -m bot.core
