@@ -26,15 +26,3 @@ ignore = ["E203", "B008"] # Ignore whitespace before ':' and dangerous default a
 quote-style = "preserve"
 indent-style = "space"
 line-ending = "auto"
-
-[tool.black]
-line-length = 120
-target-version = ['py310']
-skip-string-normalization = true
-exclude = '(.venv|.git|.hg|.mypy_cache|.tox|.ruff_cache|dist|build)/'
-
-[tool.isort]
-profile = "black"
-line_length = 120
-src_paths = ["."]
-exclude = ['.venv', 'dist', 'build']
