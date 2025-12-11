@@ -13,6 +13,7 @@ def check_and_zoom_in(steps: int) -> None:
     logging.info("Zoomed in and tilted up fully.")
     hold_up_arrow(2)
 
+
 def hold_up_arrow(duration: int) -> None:
     """Holds the up arrow key for a specified duration."""
     keyboard.press('up')
