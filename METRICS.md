@@ -4,7 +4,7 @@
 
 | Metric              | Value | Notes                                      |
 | ------------------- | ----- | ------------------------------------------ |
-| Code Coverage       | ~1%   | Only bot.utils imported in smoke test (14% of utils.py). Rest 0%. |
+| Code Coverage       | 1%   | Only bot.utils imported in smoke test (14% of utils.py). Rest 0%. |
 | Lines of Code       | 396   | Python code in bot/ directory              |
 | Python Files        | 11    | Core bot modules                           |
 | Test Files          | 1     | tests/test_smoke.py                        |
