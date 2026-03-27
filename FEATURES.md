@@ -8,8 +8,8 @@ Status guide: `[shipped]` is available now, `[planned]` is backlog work.
 
 - `[shipped]` **Thieving Bot**: Automates stealing from stalls with inventory management, rare item detection (Onyx), and chat monitoring
 - `[shipped]` **Fishing Bot**: Automates fishing from spots with 60-second intervals and inventory full detection
-- **Click Variance**: Randomized click positions (±5 pixels) to mimic human interaction patterns
-- **Pause/Resume Control**: F1 key toggles bot activity with audio feedback
+- `[shipped]` **Click Variance**: Randomized click positions (±5 pixels) to mimic human interaction patterns
+- `[shipped]` **Pause/Resume Control**: F1 key toggles bot activity with audio feedback
 
 ### 👁️ Computer Vision & OCR
 

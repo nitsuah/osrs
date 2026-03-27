@@ -8,7 +8,7 @@ A Python-based bot designed to automate Old School RuneScape tasks with computer
 
 ## Dependencies
 
-- Python 3.11 recommended to match the current runtime image
+- Python 3.10 is the primary supported version (used in CI and tooling); Python 3.11 is used in the Docker runtime image and is generally compatible.
 - [Tesseract OCR](https://github.com/tesseract-ocr/tesseract): Manually installed (required for text recognition)
 - Additional Python packages (see `requirements.txt`):
   - `pyautogui`
