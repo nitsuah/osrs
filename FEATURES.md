@@ -1,13 +1,15 @@
 # OSRS Bot Features
 
+Status guide: `[shipped]` is available now, `[planned]` is backlog work.
+
 ## Automation Core
 
 ### 🎯 Skill Automation
 
-- **Thieving Bot**: Automates stealing from stalls with inventory management, rare item detection (Onyx), and chat monitoring
-- **Fishing Bot**: Automates fishing from spots with 60-second intervals and inventory full detection
-- **Click Variance**: Randomized click positions (±5 pixels) to mimic human interaction patterns
-- **Pause/Resume Control**: F1 key toggles bot activity with audio feedback
+- `[shipped]` **Thieving Bot**: Automates stealing from stalls with inventory management, rare item detection (Onyx), and chat monitoring
+- `[shipped]` **Fishing Bot**: Automates fishing from spots with 60-second intervals and inventory full detection
+- `[shipped]` **Click Variance**: Randomized click positions (±5 pixels) to mimic human interaction patterns
+- `[shipped]` **Pause/Resume Control**: F1 key toggles bot activity with audio feedback
 
 ### 👁️ Computer Vision & OCR
 
@@ -29,8 +31,13 @@
 
 - **Compass Reset**: Automatically clicks compass to reset camera orientation to North
 - **Camera Control**: Zooms in with configurable scroll steps and tilts camera upward
-- **Inventory Detection**: Monitors chat for "inventory is full" messages
-- **Teleport Detection**: Recognizes when player is teleported and halts automation
+- `[shipped]` **Inventory Detection**: Monitors chat for "inventory is full" messages
+- `[shipped]` **Teleport Detection**: Recognizes when player is teleported and halts automation
+
+### Planned Follow-On Work
+
+- `[planned]` Health and stuck-state recovery flows
+- `[planned]` Additional skill modules such as woodcutting and mining
 
 ## Configuration & Utilities
 

@@ -2,13 +2,13 @@
 
 [![CI](https://github.com/nitsuah/osrs/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/osrs/actions)
 
-A Python-based bot designed to automate tasks and interact intelligently with the Old School RuneScape (OSRS) game. This project leverages computer vision and natural language processing to handle in-game actions and queries to avoid bot detection.
+A Python-based bot designed to automate Old School RuneScape tasks with computer vision and chat-response handling. Thieving and fishing are the shipped automation paths today; broader recovery and expansion work remains planned.
 
 ---
 
 ## Dependencies
 
-- Python 3.13
+- Python 3.10 is the primary supported version (used in CI and tooling); Python 3.11 is used in the Docker runtime image and is generally compatible.
 - [Tesseract OCR](https://github.com/tesseract-ocr/tesseract): Manually installed (required for text recognition)
 - Additional Python packages (see `requirements.txt`):
   - `pyautogui`
@@ -43,6 +43,8 @@ A Python-based bot designed to automate tasks and interact intelligently with th
    - Check its version by running: `tesseract --version`
 
 ## Features
+
+Status guide: fishing and thieving automation are shipped today. Recovery hardening and new skills remain planned.
 
 ### Core Functions
 
