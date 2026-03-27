@@ -1,43 +1,40 @@
 # Tasks
 
+Last Updated: 2026-03-27
+
 ## Done
 
-- [x] Implemented fishing and thieving automation modules.
-- [x] Added OCR/chat parsing and question-response utilities.
-- [x] Added automated tests for `camera.py`, `compass.py`, `utils.py`, and smoke coverage.
-- [x] Added CI workflow for baseline quality checks.
+- [x] Implement fishing and thieving automation modules.
+- [x] Add OCR and chat parsing helpers.
+- [x] Add automated tests for camera, compass, utils, and smoke paths.
+- [x] Add a baseline CI workflow.
 
 ## In Progress
 
-- [ ] P0 | Bug | Confidence: High | Fix Docker runtime entrypoint.
-  - Problem: Container starts with `python main.py`, but no `main.py` exists in repo root.
-  - Impact: Docker deployment path is broken despite successful image build.
-  - Acceptance Criteria: Container starts successfully and executes the documented bot entrypoint.
-  - Dependencies: None.
+- [ ] Fix the Docker runtime entrypoint.
+  - Priority: P0
+  - Problem: the container still starts with `python main.py`, but no root `main.py` exists.
+  - Acceptance Criteria: the container runs the documented bot entrypoint successfully.
 
-- [ ] P1 | Tech Debt | Confidence: High | Unify Python version strategy across docs and Docker.
-  - Problem: README states Python 3.13 while Docker stages use Python 3.10 and 3.11.
-  - Impact: Inconsistent runtime behavior and avoidable troubleshooting.
-  - Acceptance Criteria: README and Docker specify one supported version policy with explicit rationale.
-  - Dependencies: Docker entrypoint fix.
+- [ ] Unify the Python version strategy across docs and Docker.
+  - Priority: P1
+  - Problem: README and Docker still disagree on the supported Python version.
+  - Acceptance Criteria: the repo documents one supported version policy with rationale.
 
 ## Todo
 
-- [ ] P1 | Feature | Confidence: Medium | Improve OCR correction and question matching resilience.
-  - Problem: OCR noise still affects response quality in chat-triggered flows.
-  - Impact: Increases missed or incorrect anti-bot responses.
-  - Acceptance Criteria: Add test fixtures for noisy OCR text and improve match precision against known prompts.
-  - Dependencies: None.
+- [ ] Improve OCR correction and question-matching resilience.
+  - Priority: P1
+  - Problem: OCR noise still hurts response quality in chat-triggered flows.
+  - Acceptance Criteria: noisy OCR fixtures are covered and match precision improves.
 
-- [ ] P1 | Reliability | Confidence: Medium | Add health and stuck-state recovery signals.
-  - Problem: Bot can continue loops without robust runtime health checks.
-  - Impact: Higher failure risk during extended sessions.
-  - Acceptance Criteria: Detect low-health/stuck conditions and trigger deterministic recovery actions.
-  - Dependencies: OCR reliability improvements.
+- [ ] Add health and stuck-state recovery signals.
+  - Priority: P1
+  - Problem: long-running loops still lack strong runtime health checks.
+  - Acceptance Criteria: low-health and stuck conditions trigger deterministic recovery actions.
 
-- [ ] P2 | Feature | Confidence: Low | Expand skill modules (woodcutting, mining) behind stable automation primitives.
-  - Problem: Planned skill expansion depends on robust shared movement and interaction primitives.
-  - Impact: Premature expansion may amplify maintenance overhead.
-  - Acceptance Criteria: New skills reuse common primitives and include module-level tests.
-  - Dependencies: Health recovery and OCR reliability tasks.
+- [ ] Expand skill modules behind stable automation primitives.
+  - Priority: P2
+  - Problem: new skill work depends on more reliable shared movement and interaction primitives.
+  - Acceptance Criteria: new skills reuse common primitives and ship with module-level tests.
 
