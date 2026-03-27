@@ -1,43 +1,26 @@
-# 🗺️ OSRS Bot Roadmap
+# OSRS Bot Roadmap
 
-## 2024Q4: ✅ v1 - Foundation
+## 2026 Q1 (Completed)
 
-- [x] Project setup and architecture
-- [x] Python environment with PyAutoGUI and OpenCV
-- [x] Tesseract OCR integration for chat recognition
-- [x] Basic screen capture and processing utilities
-- [x] Configuration system with INI file
+- [x] Implemented core automation loops for thieving and fishing
+- [x] Added OCR-driven chat parsing and anti-bot response pipeline
+- [x] Added core utility test coverage for camera, compass, and utility modules
+- [x] Added baseline CI workflow
 
-## 2025Q1: 🚀 v1.1 - Core Automation
+## 2026 Q2 (In Progress)
 
-- [x] Thieving bot implementation with stall automation
-- [x] Fishing bot implementation with spot automation
-- [x] Camera control and compass reset functionality
-- [x] Question/answer handler for anti-bot detection
-- [x] Inventory management and chat monitoring
-- [x] Click variance for human-like interaction
+- [ ] Stabilize container runtime (current image entrypoint references missing `main.py`)
+- [ ] Reconcile runtime version strategy (README Python 3.13 vs Docker 3.10/3.11)
+- [ ] Improve OCR correction reliability and false-positive handling
 
-## 2026Q2: 🏗️ v2.0 - Enhancement Phase
+## 2026 Q3 (Planned)
 
-> **Note:** Major version bump to v2.0 reflects significant architectural enhancements and new core features introduced in this phase.
-- [x] Question response system with JSON database
-- [ ] Improved OCR accuracy with spell correction
-- [ ] Health monitoring system (HP tracking)
-- [ ] Hard reset functionality (teleport and recovery)
-- [ ] Clan Guild (CG) functions for banking
+- [ ] Implement health monitoring and recovery actions (HP checks, stuck detection, safe reset)
+- [ ] Expand skill coverage (woodcutting, mining)
+- [ ] Add deterministic simulation mode for behavior tests without live client dependency
 
-## 2026Q3: 📚 v2.1 - Multi-Skill Expansion
+## 2026 Q4 (Exploratory)
 
-- [ ] Woodcutting automation
-- [ ] Mining automation  
-- [ ] Cooking and Firemaking skills
-- [ ] Crafting and Fletching support
-- [ ] Additional combat skills
+- [ ] Evaluate multi-account orchestration safety boundaries
+- [ ] Evaluate operational controls for long-running autonomous sessions
 
-## 2026Q4: 🤖 v2.2 - Advanced Features
-
-- [ ] Mule account trading system
-- [ ] Auto-deployment with Docker
-- [ ] Multi-account management
-- [ ] Enhanced anti-detection measures
-- [ ] Performance optimizations and error recovery
