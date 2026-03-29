@@ -6,13 +6,16 @@
 FROM python:3.10-slim-bookworm AS deps
 WORKDIR /app
 
-# Copy dependency definition
+# Copy dependency definitions
 COPY requirements.txt .
+COPY requirements-dev.txt .
 
-# Install dependencies, using a virtual environment
-RUN apt-get update && apt-get install -y --no-install-recommends libgl1-mesa-glx && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	libgl1-mesa-glx tesseract-ocr python3-venv python3-pip && \
+	rm -rf /var/lib/apt/lists/*
 RUN python3 -m venv /opt/venv
-RUN /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
+RUN /opt/venv/bin/pip install --upgrade pip
+RUN /opt/venv/bin/pip install --no-cache-dir -r requirements-dev.txt
 
 # ================================
 # Stage 2: Application

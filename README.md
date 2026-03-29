@@ -26,17 +26,30 @@ A Python-based bot designed to automate Old School RuneScape tasks with computer
 
 2. Create and activate a virtual environment:
 
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # Linux/Mac
-   .\venv\Scripts\activate    # Windows
-   ```
+  ```bash
+  python -m venv venv
+  source venv/bin/activate   # Linux/Mac
+  .\venv\Scripts\activate    # Windows
+  ```
 
 3. Install required Python packages:
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+---
+
+## Docker-based Test & Coverage
+
+To run all tests and collect coverage in Docker:
+
+```sh
+docker build --no-cache -t osrs-test .
+docker run --rm -it osrs-test /opt/venv/bin/pytest --cov
+```
+
+This uses the dev dependencies and includes all test files. Coverage output will be shown in the container log.
 
 4. Verify Tesseract installation:
    - Ensure Tesseract is installed and added to your system's PATH.
@@ -48,9 +61,6 @@ Status guide: fishing and thieving automation are shipped today. Recovery harden
 
 ### Core Functions
 
-#### Utilities
-
-- **Configuration**:
   - `load_config`: Loads the configuration from an INI file, checking for required sections and validating values. This is essential for setting up coordinates and other constants for the bot's operation. The function also logs available keys in the 'constants' and 'coordinates' sections for debugging.
 
 - **Game State**:
@@ -60,7 +70,6 @@ Status guide: fishing and thieving automation are shipped today. Recovery harden
 
 #### Skill Automation
 
-Modules for automating in-game tasks like fishing and thieving.
 
 - **Fishing (`fishing.py`)**:
   - `fish_from_spot`: Automates fishing by interacting with a fishing spot and responding to inventory full prompts (from `actions.py`).
@@ -76,7 +85,31 @@ Modules for automating in-game tasks like fishing and thieving.
   - `save_screenshot`: Saves a screenshot of the chat region for later analysis.
 
 - **Image Processing with OpenCV**:
-  - Uses OpenCV (`cv2`) to handle image manipulation and perform region-based screen captures to focus on specific parts of the game, such as the chat window.
+
+## Makefile & Docker-based DevOps
+
+### Local test, coverage, lint, build
+
+```sh
+make test        # Run all tests
+make coverage    # Run tests with coverage
+make lint        # Lint with flake8
+make build       # Build with pyinstaller
+```
+
+### Docker-based test/coverage
+
+```sh
+make docker-test   # Build Docker image and run tests with coverage
+make docker-build  # Build production Docker image
+```
+
+### CI/CD
+- See .github/workflows/ci.yml for full pipeline: lint, test, coverage, build, artifact.
+
+### Tesseract
+- Ensure Tesseract is installed and in your PATH for local runs.
+  - Check its version by running: `tesseract --version`
 
 #### Chat Recognition
 
