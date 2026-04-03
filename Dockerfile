@@ -40,4 +40,4 @@ USER appuser
 EXPOSE 5000
 
 # Define entrypoint command
-CMD ["python", "main.py"]
+CMD ["python", "-m", "bot.core"]
