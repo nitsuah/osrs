@@ -1,6 +1,6 @@
 # Tasks
 
-Last Updated: 2026-03-27
+Last Updated: 2026-04-03 (pmo/q2-2026-planning)
 
 ## Done
 
@@ -32,6 +32,11 @@ Last Updated: 2026-03-27
   - Priority: P1
   - Problem: long-running loops still lack strong runtime health checks.
   - Acceptance Criteria: low-health and stuck conditions trigger deterministic recovery actions.
+
+- [ ] Add deterministic runtime checkpoint logging.
+  - Priority: P2
+  - Problem: long-session troubleshooting lacks enough timestamped checkpoints to explain failures.
+  - Acceptance Criteria: key loop state (activity, location confidence, OCR confidence, last action) is logged periodically and summarized on failure.
 
 - [ ] Expand skill modules behind stable automation primitives.
   - Priority: P2

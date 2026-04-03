@@ -1,6 +1,6 @@
 # OSRS Bot Roadmap
 
-Last Updated: 2026-03-27
+Last Updated: 2026-04-03 (pmo/q2-2026-planning)
 
 ## 2026 Q1 (Completed)
 
@@ -13,6 +13,7 @@ Last Updated: 2026-03-27
 - [ ] Stabilize the container runtime entrypoint.
 - [ ] Reconcile the supported Python version across docs and Docker.
 - [ ] Improve OCR correction reliability and false-positive handling.
+- [ ] Add deterministic runtime health checks so long sessions can recover safely from stuck states.
 
 ## 2026 Q3 (Planned)
 
