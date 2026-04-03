@@ -54,4 +54,4 @@
 
 - TASKS updates needed: ✓ done
 - ROADMAP updates needed: none (Docker stability is a Q1 completed milestone)
-- Final disposition: fix merged, Python version unification remains P1 in TASKS
+- Final disposition: fix implemented; PR pending review/merge, Python version unification remains P1 in TASKS
