@@ -11,10 +11,12 @@ Last Updated: 2026-04-03 (pmo/q2-2026-planning)
 
 ## In Progress
 
-- [ ] Fix the Docker runtime entrypoint.
+- [x] Fix the Docker runtime entrypoint.
   - Priority: P0
   - Problem: the container still starts with `python main.py`, but no root `main.py` exists.
   - Acceptance Criteria: the container runs the documented bot entrypoint successfully.
+  - Completed: 2026-04-03
+  - Evidence: `Dockerfile` CMD updated to `python -m bot.core`; consistent with `docker-compose.yml` override.
 
 - [ ] Unify the Python version strategy across docs and Docker.
   - Priority: P1
