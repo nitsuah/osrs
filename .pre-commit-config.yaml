@@ -31,7 +31,7 @@ repos:
       - id: flake8
         name: flake8 (python)
         language_version: python3
-        args: ["--max-line-length=120"]
+        args: ["--max-line-length=120", "--config=config/.flake8"]
 
   # Python type checking
   - repo: https://github.com/pre-commit/mirrors-mypy

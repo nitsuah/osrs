@@ -11,7 +11,7 @@ coverage:
 	pytest --cov
 
 lint:
-	flake8 .
+	flake8 --config config/.flake8 .
 
 build:
 	pyinstaller --onefile -n osrs-bot bot/core.py
