@@ -1,16 +1,13 @@
 # OSRS Bot Roadmap
 
-Last Updated: 2026-04-03 (pmo/q2-2026-planning)
+Last Updated: 2026-06-08
 
-## 2026 Q1 (Completed)
+## 2026 Q1 ✅
 
-- [x] Implement the core fishing and thieving automation loops.
-- [x] Add OCR-driven chat parsing and anti-bot response support.
-- [x] Add core utility coverage and baseline CI.
+> Completed. Core fishing and thieving automation loops, OCR-driven chat parsing, anti-bot response support, core utility coverage, baseline CI, and Docker entrypoint fix all shipped.
 
 ## 2026 Q2 (In Progress)
 
-- [ ] Stabilize the container runtime entrypoint.
 - [ ] Reconcile the supported Python version across docs and Docker.
 - [ ] Improve OCR correction reliability and false-positive handling.
 - [ ] Add deterministic runtime health checks so long sessions can recover safely from stuck states.
@@ -25,4 +22,3 @@ Last Updated: 2026-04-03 (pmo/q2-2026-planning)
 
 - [ ] Evaluate multi-account orchestration safety boundaries.
 - [ ] Evaluate operational controls for long-running autonomous sessions.
-

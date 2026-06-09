@@ -1,19 +1,6 @@
 # Tasks
 
-Last Updated: 2026-04-03 (pmo/q2-2026-planning)
-
-## Done
-
-- [x] Implement fishing and thieving automation modules.
-- [x] Add OCR and chat parsing helpers.
-- [x] Add automated tests for camera, compass, utils, and smoke paths.
-- [x] Add a baseline CI workflow.
-- [x] Fix the Docker runtime entrypoint.
-  - Priority: P0
-  - Problem: the container still starts with `python main.py`, but no root `main.py` exists.
-  - Acceptance Criteria: the container runs the documented bot entrypoint successfully.
-  - Completed: 2026-04-03
-  - Evidence: `Dockerfile` CMD updated to `python -m bot.core`; consistent with `docker-compose.yml` override.
+Last Updated: 2026-06-08
 
 ## In Progress
 
@@ -43,4 +30,3 @@ Last Updated: 2026-04-03 (pmo/q2-2026-planning)
   - Priority: P2
   - Problem: new skill work depends on more reliable shared movement and interaction primitives.
   - Acceptance Criteria: new skills reuse common primitives and ship with module-level tests.
-
