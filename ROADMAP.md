@@ -22,3 +22,5 @@ Last Updated: 2026-06-08
 
 - [ ] Evaluate multi-account orchestration safety boundaries.
 - [ ] Evaluate operational controls for long-running autonomous sessions.
+- [ ] **Session dashboard** — local-only web UI (served on `localhost`) that plots XP gained, actions per minute, and inventory events over a session timeline; gives the operator a glance-view without tailing log files.
+- [ ] **Behavioral profile system** — named automation profiles (`casual`, `focused`, `marathon`) that parametrize click variance, break frequency, and action cadence; decouples behavior tuning from code changes and makes long-session patterns more varied without editing source files.
