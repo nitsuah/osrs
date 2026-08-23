@@ -21,7 +21,7 @@ A Python-based bot designed to automate Old School RuneScape tasks with computer
   - `textblob`
   - `pygetwindow`
   - `nltk`
-  - `pynput` (used by `bot/recorder.py`; not yet in `requirements.txt`)
+  - `pynput` (used by `bot/recorder.py`; not yet in `requirements.txt` — install separately: `pip install pynput`)
 
 ## Setup
 

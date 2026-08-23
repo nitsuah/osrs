@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Fishing automation loop (`fishing.py`): F1 pause/resume, 60-second poll interval, inventory-full detection via OCR chat parsing.
 - Thieving automation loop (`thieving.py`): F1 pause/resume, coin-pouch flush, Onyx rare-item halt, randomized action delay (0.5–0.8 s).
 - `click_with_variance` in `actions.py`: ±5-pixel random offset on every click to mimic human interaction.
@@ -22,11 +23,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 100% test coverage across `camera.py`, `compass.py`, `utils.py` (4 test files, 25 test cases).
 
 ### Fixed
+
 - `Dockerfile` CMD changed from `python main.py` to `python -m bot.core` to match the actual entrypoint.
 
 ## [0.1.0] - 2026-01-01
 
 ### Added
+
 - Project initialization with core bot structure.
 
 [Unreleased]: https://github.com/nitsuah/osrs/compare/v0.1.0...HEAD
