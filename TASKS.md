@@ -1,6 +1,15 @@
 # Tasks
 
-Last Updated: 2026-06-08
+Last Updated: 2026-08-22
+
+## Done
+
+- [x] Ship fishing automation loop (`fishing.py`).
+  - Delivered: Q1 2026
+- [x] Ship thieving automation loop (`thieving.py`).
+  - Delivered: Q1 2026
+- [x] Fix Docker runtime entrypoint (`Dockerfile` CMD `python main.py` → `python -m bot.core`).
+  - Delivered: 2026-04-03 (see `docs/HANDOFF-docker-entrypoint-20260403.md`)
 
 ## In Progress
 

@@ -19,6 +19,9 @@ A Python-based bot designed to automate Old School RuneScape tasks with computer
   - `pytesseract`
   - `keyboard`
   - `textblob`
+  - `pygetwindow`
+  - `nltk`
+  - `pynput` (used by `bot/recorder.py`; not yet in `requirements.txt` — install separately: `pip install pynput`)
 
 ## Setup
 
@@ -64,9 +67,8 @@ Status guide: fishing and thieving automation are shipped today. Recovery harden
   - `load_config`: Loads the configuration from an INI file, checking for required sections and validating values. This is essential for setting up coordinates and other constants for the bot's operation. The function also logs available keys in the 'constants' and 'coordinates' sections for debugging.
 
 - **Game State**:
-  - `compass.py` - `find_and_click_compass`: Aligns the in-game compass to the default position of North.
-  - `camera.py` - `check_and_zoom_in` / `hold_up_arrow`: Checks the camera angle and zooms in and tilts up as necessary.
-  - `thieving.py` - `check_tesseract_version`: Checks the version of the installed Tesseract OCR.
+  - `compass.py` - `click_compass`: Clicks the compass to reset the camera orientation to North.
+  - `camera.py` - `check_and_zoom_in` / `hold_up_arrow`: Zooms in using configurable scroll steps then tilts the camera upward.
 
 #### Skill Automation
 
@@ -147,11 +149,28 @@ Project Layout
 
 ```plaintext
 ├── bot/
-│   ├── core.py          # Main entry point
+│   ├── core.py                    # Main entry point (compass reset → camera tilt → Theft loop)
+│   ├── camera.py                  # Zoom and camera tilt utilities
+│   ├── compass.py                 # Compass reset click
+│   ├── config.py                  # Config loader (returns ConfigParser)
+│   ├── recorder.py                # Mouse-click recorder for coordinate capture
+│   ├── utils.py                   # Validated config loader (returns dict)
 │   ├── skills/
-│   │   ├── fishing.py  # Handles fishing automation
-│   ├── screen_processing.py  # Captures and processes screen
-│   ├── question_handler.py   # Handles NLP
+│   │   ├── actions.py             # click_with_variance, thieve_from_stall, fish_from_spot
+│   │   ├── fishing.py             # Fishing automation loop (F1 pause/resume)
+│   │   ├── question_handler.py    # NLP question lookup (TextBlob + JSON KB)
+│   │   ├── questions.json         # Anti-bot Q&A knowledge base (131 entries)
+│   │   ├── screen_processing.py   # Screen capture, OCR chat parsing, screenshot save
+│   │   └── thieving.py            # Thieving automation loop (F1 pause/resume)
+│   ├── config.ini                 # Coordinates, constants, logger, Tesseract path
+│   └── logs/                      # Runtime log output
+├── tests/
+│   ├── conftest.py
+│   ├── test_camera.py
+│   ├── test_compass.py
+│   ├── test_smoke.py
+│   └── test_utils.py
+└── .github/workflows/ci.yml       # Lint → test (xvfb) → pyinstaller build
 ```
 ## Community Standards
 
