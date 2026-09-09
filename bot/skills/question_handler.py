@@ -24,9 +24,16 @@ def load_question_responses() -> dict:
         return {}
 
 
+# OCR output can vary in case ("CLICK HERE TO CONTINUE") and insert stray
+# whitespace inside the phrase, so this is matched case-insensitively with
+# whitespace runs treated as a single space -- a plain str.replace() only
+# ever matched the exact title-case string.
+_CLICK_HERE_RE = re.compile(r"click\s+here\s+to\s+continue", re.IGNORECASE)
+
+
 def clean_question(question: str) -> str:
     logging.info("Cleaning question: '%s'", question)
-    without_prompt = (question or "").replace("Click here to continue", "")
+    without_prompt = _CLICK_HERE_RE.sub("", question or "")
     return _WHITESPACE_RE.sub(" ", without_prompt).strip()
 
 
@@ -62,15 +69,25 @@ def lookup_response(question: str, question_responses: dict) -> str:
     normalized_cleaned = normalize_for_match(cleaned_question)
     normalized_corrected = normalize_for_match(corrected_question)
 
-    entries = question_responses.get('questions', []) if question_responses else []
+    # questions.json is hand-edited, so `question_responses` may legitimately
+    # be malformed ({"questions": null}, "questions" missing entirely, a
+    # non-list value, or an entry that isn't an object) -- none of that
+    # should ever crash the bot mid-loop, it should just fall through to
+    # DEFAULT_RESPONSE like "no match found" does.
+    entries = question_responses.get('questions') if question_responses else None
+    if not isinstance(entries, list):
+        entries = []
+
     for entry in entries:
+        if not isinstance(entry, dict):
+            continue
         entry_question = normalize_for_match(entry.get('question', ''))
         entry_keyword = normalize_for_match(entry.get('keyword', ''))
         # Logging the check for debugging.
         if normalized_cleaned == entry_question:
-            return entry['answer']  # Return the exact answer
+            return entry.get('answer', DEFAULT_RESPONSE)  # Return the exact answer
         elif entry_keyword and entry_keyword in normalized_cleaned:
-            return entry['answer']  # Fallback to keyword match
+            return entry.get('answer', DEFAULT_RESPONSE)  # Fallback to keyword match
         elif entry_keyword and entry_keyword in normalized_corrected:
-            return entry['answer']  # Fallback to keyword match in corrected question
+            return entry.get('answer', DEFAULT_RESPONSE)  # Fallback to keyword match in corrected question
     return DEFAULT_RESPONSE  # Default response if no match found

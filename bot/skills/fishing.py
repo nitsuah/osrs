@@ -52,6 +52,11 @@ def Fish() -> None:
 
         if health_monitor.is_stuck():
             health_monitor.recover()
+            # Give the environment a beat before retrying rather than
+            # immediately hammering the same capture path that was just
+            # declared stuck in this same iteration.
+            time.sleep(1)
+            continue
 
         screen_np = capture_screen()
         if screen_np is None:
@@ -59,7 +64,11 @@ def Fish() -> None:
             time.sleep(0.5)
             continue
         # Pass the chat region to the capture function
-        chat_text, chat_image = capture_and_process_chat(screen_np, chat_region)
+        chat_text, chat_image, ocr_ok = capture_and_process_chat(screen_np, chat_region)
+        if not ocr_ok:
+            health_monitor.record_capture_failure()
+            time.sleep(0.5)
+            continue
         health_monitor.record_frame(chat_text)
         # Check if a question prompt needs a response
         if "teleported" in chat_text.lower():

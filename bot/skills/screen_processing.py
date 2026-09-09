@@ -28,10 +28,16 @@ def capture_screen():
 def capture_and_process_chat(screen_np, chat_region):
     """Crop the chat region and OCR it.
 
-    Returns `("", chat_image)` (rather than raising) when Tesseract is
-    missing/misconfigured or OCR otherwise fails, so a transient OCR error
-    can't crash a long-running automation loop -- callers already treat an
-    empty `chat_text` as "nothing detected this frame".
+    Returns `(chat_text, chat_image, ocr_ok)` -- never raises. `ocr_ok` is
+    False only when Tesseract itself failed (missing/misconfigured, or
+    raised on this image); a legitimately empty chat region is `("",
+    chat_image, True)`, not a failure. Callers must not conflate the two:
+    an OCR exception is a capture failure (StuckStateMonitor.
+    record_capture_failure()), while an empty-but-successful read is a
+    normal "nothing happening" frame (record_frame("")). Collapsing both
+    into `""` previously meant a persistent Tesseract failure reset
+    record_frame's internal capture-failure counter on every call, so it
+    could never reach capture_failure_limit.
     """
     x1, y1, x2, y2 = chat_region
     chat_image = screen_np[y1:y2, x1:x2]  # Capture the chat region
@@ -39,8 +45,8 @@ def capture_and_process_chat(screen_np, chat_region):
         chat_text = pytesseract.image_to_string(chat_image)
     except Exception as e:
         logging.error("Error running OCR on chat region: %s", e)
-        return "", chat_image
-    return chat_text, chat_image
+        return "", chat_image, False
+    return chat_text, chat_image, True
 
 
 def save_screenshot(chat_image):

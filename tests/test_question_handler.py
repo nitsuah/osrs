@@ -24,6 +24,14 @@ class TestCleanQuestion:
     def test_strips_click_here_prompt(self):
         assert clean_question("What colour is the sky? Click here to continue") == "What colour is the sky?"
 
+    def test_strips_click_here_prompt_case_insensitively(self):
+        # OCR sometimes reads the prompt in all-caps or mixed case.
+        assert clean_question("What colour is the sky? CLICK HERE TO CONTINUE") == "What colour is the sky?"
+        assert clean_question("What colour is the sky? Click Here To Continue") == "What colour is the sky?"
+
+    def test_strips_click_here_prompt_with_ocr_whitespace_noise(self):
+        assert clean_question("What colour is the sky? Click  here\nto   continue") == "What colour is the sky?"
+
     def test_collapses_ocr_whitespace_noise(self):
         # OCR frequently inserts line breaks / doubled spaces mid-sentence.
         noisy = "What   colour\nis the\tsky?"
@@ -107,4 +115,27 @@ class TestLookupResponse:
     def test_missing_questions_key_does_not_raise(self):
         with self._no_op_correct():
             response = lookup_response("what colour is the sky?", {"unexpected": []})
+        assert response == DEFAULT_RESPONSE
+
+    def test_null_questions_value_does_not_raise(self):
+        # A hand-edited questions.json can legitimately have {"questions": null}.
+        with self._no_op_correct():
+            response = lookup_response("what colour is the sky?", {"questions": None})
+        assert response == DEFAULT_RESPONSE
+
+    def test_non_list_questions_value_does_not_raise(self):
+        with self._no_op_correct():
+            response = lookup_response("what colour is the sky?", {"questions": "not a list"})
+        assert response == DEFAULT_RESPONSE
+
+    def test_non_dict_entry_is_skipped_without_raising(self):
+        malformed = {"questions": ["not a dict", {"question": "who made runescape?", "answer": "Jagex", "keyword": "Runescape"}]}
+        with self._no_op_correct():
+            response = lookup_response("who made runescape?", malformed)
+        assert response == "Jagex"
+
+    def test_entry_missing_answer_key_falls_back_to_default(self):
+        malformed = {"questions": [{"question": "what colour is the sky?", "keyword": "sky"}]}
+        with self._no_op_correct():
+            response = lookup_response("what colour is the sky?", malformed)
         assert response == DEFAULT_RESPONSE

@@ -15,8 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `Dockerfile` app stage pinned to `python:3.10-slim-bookworm` (was `3.11`), matching the deps stage, CI, and `pyproject.toml`; README now documents one supported Python version instead of two.
-- `question_handler.py`: `lookup_response` now normalizes (lower-case, whitespace-collapsed) OCR text before comparing, and corrects the *cleaned* question instead of the raw OCR string, fixing a case-sensitivity bug that silently defeated exact-match lookups.
-- `screen_processing.py`: `capture_and_process_chat` no longer raises on Tesseract/OCR failures; it logs and returns an empty chat string so a transient OCR error can't crash a long-running loop.
+- `question_handler.py`: `lookup_response` now normalizes (lower-case, whitespace-collapsed) OCR text before comparing, and corrects the *cleaned* question instead of the raw OCR string, fixing a case-sensitivity bug that silently defeated exact-match lookups. `clean_question` now strips the "click here to continue" prompt boilerplate case- and whitespace-insensitively (was an exact string match) and `lookup_response` no longer raises if `questions.json` has a malformed `questions` value or entry.
+- `screen_processing.py`: `capture_and_process_chat` no longer raises on Tesseract/OCR failures; it logs and returns an empty chat string so a transient OCR error can't crash a long-running loop. It now also returns an explicit `ocr_ok` flag (2026-09-09) so callers can distinguish an actual OCR failure from a legitimately empty chat region — both previously collapsed into `record_frame("")`, which reset the stuck-state monitor's capture-failure counter on every call and meant a persistent Tesseract failure could never trip `capture_failure_limit`.
+- `fishing.py` / `thieving.py`: route an OCR failure to `health_monitor.record_capture_failure()` instead of `record_frame("")`; back off 1s and skip the rest of the loop iteration after `health_monitor.recover()` instead of immediately retrying the same capture path that was just declared stuck.
 
 ### Added (from initial release)
 

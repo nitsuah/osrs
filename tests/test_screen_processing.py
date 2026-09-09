@@ -17,28 +17,42 @@ class TestCaptureAndProcessChat:
     def test_returns_ocr_text_and_cropped_image(self, mock_ocr):
         mock_ocr.return_value = "What colour is the sky?"
 
-        chat_text, chat_image = capture_and_process_chat(FAKE_SCREEN, CHAT_REGION)
+        chat_text, chat_image, ocr_ok = capture_and_process_chat(FAKE_SCREEN, CHAT_REGION)
 
         assert chat_text == "What colour is the sky?"
         assert chat_image.shape == (50, 50, 3)
+        assert ocr_ok is True
 
     @patch("bot.skills.screen_processing.pytesseract.image_to_string")
     def test_crops_the_requested_region(self, mock_ocr):
         mock_ocr.return_value = ""
         region = (10, 20, 40, 60)
 
-        _, chat_image = capture_and_process_chat(FAKE_SCREEN, region)
+        _, chat_image, _ = capture_and_process_chat(FAKE_SCREEN, region)
 
         assert chat_image.shape == (40, 30, 3)  # (y2-y1, x2-x1, channels)
+
+    @patch("bot.skills.screen_processing.pytesseract.image_to_string")
+    def test_legitimately_empty_chat_region_is_not_an_ocr_failure(self, mock_ocr):
+        mock_ocr.return_value = ""
+
+        chat_text, _, ocr_ok = capture_and_process_chat(FAKE_SCREEN, CHAT_REGION)
+
+        assert chat_text == ""
+        assert ocr_ok is True
 
     @patch("bot.skills.screen_processing.pytesseract.image_to_string")
     def test_ocr_failure_returns_empty_text_instead_of_raising(self, mock_ocr):
         mock_ocr.side_effect = RuntimeError("tesseract is not installed or it's not in your PATH")
 
-        chat_text, chat_image = capture_and_process_chat(FAKE_SCREEN, CHAT_REGION)
+        chat_text, chat_image, ocr_ok = capture_and_process_chat(FAKE_SCREEN, CHAT_REGION)
 
         assert chat_text == ""
         assert chat_image is not None  # the crop should still be returned for screenshotting
+        # An actual OCR failure must be distinguishable from a legitimately
+        # empty chat region -- callers rely on this to route to
+        # record_capture_failure() instead of record_frame("").
+        assert ocr_ok is False
 
     @patch("bot.skills.screen_processing.pytesseract.image_to_string")
     @patch("bot.skills.screen_processing.logging")
@@ -55,7 +69,7 @@ class TestCaptureAndProcessChat:
         # question_handler's job -- so raw noisy OCR output should round-trip.
         mock_ocr.return_value = "What   colour\nis the\tsky?  \n\n"
 
-        chat_text, _ = capture_and_process_chat(FAKE_SCREEN, CHAT_REGION)
+        chat_text, _, _ = capture_and_process_chat(FAKE_SCREEN, CHAT_REGION)
 
         assert chat_text == "What   colour\nis the\tsky?  \n\n"
 
