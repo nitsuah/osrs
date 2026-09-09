@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `bot/health.py` `StuckStateMonitor`: tracks stale OCR chat frames, consecutive screen-capture failures, and loop idle time for `fishing.py`/`thieving.py`, and performs deterministic, logged recovery when a loop looks stuck.
+- Tests for the above: `tests/test_health.py`, `tests/test_question_handler.py`, `tests/test_screen_processing.py` (including noisy-OCR-input fixtures).
+
+### Changed
+
+- `Dockerfile` app stage pinned to `python:3.10-slim-bookworm` (was `3.11`), matching the deps stage, CI, and `pyproject.toml`; README now documents one supported Python version instead of two.
+- `question_handler.py`: `lookup_response` now normalizes (lower-case, whitespace-collapsed) OCR text before comparing, and corrects the *cleaned* question instead of the raw OCR string, fixing a case-sensitivity bug that silently defeated exact-match lookups.
+- `screen_processing.py`: `capture_and_process_chat` no longer raises on Tesseract/OCR failures; it logs and returns an empty chat string so a transient OCR error can't crash a long-running loop.
+
+### Added (from initial release)
+
 - Fishing automation loop (`fishing.py`): F1 pause/resume, 60-second poll interval, inventory-full detection via OCR chat parsing.
 - Thieving automation loop (`thieving.py`): F1 pause/resume, coin-pouch flush, Onyx rare-item halt, randomized action delay (0.5–0.8 s).
 - `click_with_variance` in `actions.py`: ±5-pixel random offset on every click to mimic human interaction.

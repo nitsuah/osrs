@@ -8,9 +8,9 @@ Last Updated: 2026-08-22
 
 ## 2026 Q2 (In Progress)
 
-- [ ] Reconcile the supported Python version across docs and Docker.
-- [ ] Improve OCR correction reliability and false-positive handling.
-- [ ] Add deterministic runtime health checks so long sessions can recover safely from stuck states.
+- [x] Reconcile the supported Python version across docs and Docker.
+- [x] Improve OCR correction reliability and false-positive handling.
+- [x] Add deterministic runtime health checks so long sessions can recover safely from stuck states.
 
 ## 2026 Q3 (Planned)
 

@@ -6,8 +6,9 @@ import keyboard
 import random
 from typing import Tuple
 from bot.config import load_config
+from bot.health import StuckStateMonitor
 from bot.skills.screen_processing import capture_screen, capture_and_process_chat, save_screenshot
-from bot.skills.question_handler import load_question_responses, lookup_response
+from bot.skills.question_handler import DEFAULT_RESPONSE, load_question_responses, lookup_response
 from bot.skills.actions import thieve_from_stall
 
 # Set up logging
@@ -28,6 +29,7 @@ PAUSE_THIEVING = False
 CLICK_COUNTER = 0
 
 question_responses = load_question_responses()
+health_monitor = StuckStateMonitor("thieving")
 
 
 def respond_to_question(question: str, chat_image) -> None:
@@ -41,7 +43,7 @@ def respond_to_question(question: str, chat_image) -> None:
     logging.info("Detected question: '%s'", question)
     logging.info("Responding with: '%s'", response)
 
-    if response == "bald":
+    if response == DEFAULT_RESPONSE:
         winsound.Beep(500, 500)
         save_screenshot(chat_image)
         input("Press Enter to continue...")
@@ -75,12 +77,18 @@ def Theft() -> None:
 
         handle_user_input()
 
+        if health_monitor.is_stuck():
+            health_monitor.recover()
+
         screen_np = capture_screen()
         if screen_np is None:
+            health_monitor.record_capture_failure()
+            time.sleep(0.5)
             continue
 
         # Pass the chat region to the capture function
         chat_text, chat_image = capture_and_process_chat(screen_np, chat_region)
+        health_monitor.record_frame(chat_text)
         # Check if a question prompt needs a response
         if "teleported" in chat_text.lower():
             logging.info("Question prompt detected.")
@@ -90,6 +98,7 @@ def Theft() -> None:
                 question = chat_text.strip()  # Fallback if no colon is found
             logging.info("Responding to question...")
             respond_to_question(question, chat_image)
+            health_monitor.record_activity()
             time.sleep(random.uniform(0.5, 0.8))
             logging.info("Continue thieving...")
             continue
@@ -97,6 +106,7 @@ def Theft() -> None:
 
         # Update CLICK_COUNTER with the returned value from thieve_from_stall
         CLICK_COUNTER = thieve_from_stall(chat_text, CLICK_COUNTER)
+        health_monitor.record_activity()
         time.sleep(random.uniform(0.5, 0.8))
 
 

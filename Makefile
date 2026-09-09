@@ -18,7 +18,7 @@ build:
 
 docker-test:
 	docker build --no-cache -t osrs-test:py .
-	docker run --rm -it osrs-test:py /opt/venv/bin/python -m pytest --cov
+	docker run --rm osrs-test:py xvfb-run -a /opt/venv/bin/python -m pytest --cov
 
 docker-build:
 	docker build -t osrs:latest .

@@ -4,6 +4,7 @@ import winsound
 import random
 import keyboard
 from bot.config import load_config
+from bot.health import StuckStateMonitor
 from bot.skills.screen_processing import capture_screen, capture_and_process_chat
 # from bot.skills.question_handler import correct_text
 from bot.skills.actions import fish_from_spot
@@ -26,6 +27,8 @@ RUNNING = True
 PAUSE_FISHING = False
 CLICK_COUNTER = 0
 
+health_monitor = StuckStateMonitor("fishing")
+
 
 def handle_user_input() -> None:
     global PAUSE_FISHING
@@ -47,11 +50,17 @@ def Fish() -> None:
 
         handle_user_input()
 
+        if health_monitor.is_stuck():
+            health_monitor.recover()
+
         screen_np = capture_screen()
         if screen_np is None:
+            health_monitor.record_capture_failure()
+            time.sleep(0.5)
             continue
         # Pass the chat region to the capture function
         chat_text, chat_image = capture_and_process_chat(screen_np, chat_region)
+        health_monitor.record_frame(chat_text)
         # Check if a question prompt needs a response
         if "teleported" in chat_text.lower():
             logging.info("Question prompt detected.")
@@ -61,6 +70,7 @@ def Fish() -> None:
                 question = chat_text.strip()  # Fallback if no colon is found
             logging.info("Responding to question...")
             respond_to_question(question, chat_image)
+            health_monitor.record_activity()
             time.sleep(random.uniform(0.5, 0.8))
             logging.info("Continue fishing...")
             continue
@@ -68,6 +78,7 @@ def Fish() -> None:
 
         # Update CLICK_COUNTER with the returned value from fish_from_spot
         CLICK_COUNTER = fish_from_spot(chat_text, CLICK_COUNTER)
+        health_monitor.record_activity()
         time.sleep(60)  # Sleep for 60 seconds before checking again
 
 

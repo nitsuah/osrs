@@ -1,6 +1,6 @@
 # Tasks
 
-Last Updated: 2026-08-22
+Last Updated: 2026-09-02
 
 ## Done
 
@@ -10,25 +10,17 @@ Last Updated: 2026-08-22
   - Delivered: Q1 2026
 - [x] Fix Docker runtime entrypoint (`Dockerfile` CMD `python main.py` → `python -m bot.core`).
   - Delivered: 2026-04-03 (see `docs/HANDOFF-docker-entrypoint-20260403.md`)
-
-## In Progress
-
-- [ ] Unify the Python version strategy across docs and Docker.
-  - Priority: P1
-  - Problem: README and Docker still disagree on the supported Python version.
-  - Acceptance Criteria: the repo documents one supported version policy with rationale.
+- [x] Unify the Python version strategy across docs and Docker.
+  - Delivered: 2026-09-02
+  - Resolution: both Dockerfile stages, CI, and `pyproject.toml` now pin Python 3.10; README documents this as the single supported version with rationale.
+- [x] Improve OCR correction and question-matching resilience.
+  - Delivered: 2026-09-02
+  - Resolution: `question_handler.py` now normalizes/lower-cases OCR text before matching and corrects the cleaned (not raw) text; `screen_processing.py` no longer raises on OCR/Tesseract failures. Covered by noisy-input fixtures in `tests/test_question_handler.py` and `tests/test_screen_processing.py`.
+- [x] Add health and stuck-state recovery signals.
+  - Delivered: 2026-09-02
+  - Resolution: new `bot/health.py` `StuckStateMonitor` tracks stale OCR frames, repeated capture failures, and activity idle time for the fishing and thieving loops, and performs deterministic, logged recovery when thresholds are crossed. Covered by `tests/test_health.py`.
 
 ## Todo
-
-- [ ] Improve OCR correction and question-matching resilience.
-  - Priority: P1
-  - Problem: OCR noise still hurts response quality in chat-triggered flows.
-  - Acceptance Criteria: noisy OCR fixtures are covered and match precision improves.
-
-- [ ] Add health and stuck-state recovery signals.
-  - Priority: P1
-  - Problem: long-running loops still lack strong runtime health checks.
-  - Acceptance Criteria: low-health and stuck conditions trigger deterministic recovery actions.
 
 - [ ] Add deterministic runtime checkpoint logging.
   - Priority: P2
