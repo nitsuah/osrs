@@ -139,3 +139,20 @@ class TestLookupResponse:
         with self._no_op_correct():
             response = lookup_response("what colour is the sky?", malformed)
         assert response == DEFAULT_RESPONSE
+
+    def test_entry_with_non_string_field_is_skipped_without_raising(self):
+        # A hand-edited questions.json could have a non-string value for
+        # question/keyword/answer (e.g. a stray number or nested object).
+        # normalize_for_match assumes a string, so this must be skipped
+        # rather than crash the bot mid-loop.
+        malformed = {
+            "questions": [
+                {"question": 12345, "keyword": "sky", "answer": "wrong"},
+                {"question": "who made runescape?", "keyword": ["Runescape"], "answer": "wrong"},
+                {"question": "what colour is the sky?", "keyword": "sky", "answer": {"nested": True}},
+                {"question": "who made runescape?", "keyword": "Runescape", "answer": "Jagex"},
+            ]
+        }
+        with self._no_op_correct():
+            response = lookup_response("who made runescape?", malformed)
+        assert response == "Jagex"

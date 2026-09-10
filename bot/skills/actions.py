@@ -60,7 +60,9 @@ def fish_from_spot(chat_text: str, click_counter: int) -> int:
         logging.info("Emptied inventory and resuming fishing.")
         return 0  # Reset click counter
     else:
-        # Continue fishing
+        # Continue fishing. The wait before the next check happens in the
+        # caller's loop (Fish()'s own time.sleep(60)) — an identical sleep
+        # here used to stack with it, making each attempt take ~120s instead
+        # of the intended ~60s.
         click_with_variance(*fish_spot_1)
-        time.sleep(60)
         return click_counter + 1  # Increment counter if fishing

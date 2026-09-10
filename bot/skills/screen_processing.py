@@ -5,6 +5,7 @@ import os
 import time
 import logging
 import pytesseract
+from typing import Optional, Tuple
 from bot.config import config
 
 # Set up the Tesseract path
@@ -13,7 +14,7 @@ pytesseract.pytesseract.tesseract_cmd = config['tesseract']['path']
 SCREENSHOT_DIRECTORY = ".//bot//questions"
 
 
-def capture_screen():
+def capture_screen() -> Optional[np.ndarray]:
     try:
         # Capture the screen using ImageGrab
         screen = ImageGrab.grab()
@@ -25,7 +26,9 @@ def capture_screen():
         return None
 
 
-def capture_and_process_chat(screen_np, chat_region):
+def capture_and_process_chat(
+    screen_np: np.ndarray, chat_region: Tuple[int, int, int, int]
+) -> Tuple[str, np.ndarray, bool]:
     """Crop the chat region and OCR it.
 
     Returns `(chat_text, chat_image, ocr_ok)` -- never raises. `ocr_ok` is

@@ -81,13 +81,27 @@ def lookup_response(question: str, question_responses: dict) -> str:
     for entry in entries:
         if not isinstance(entry, dict):
             continue
-        entry_question = normalize_for_match(entry.get('question', ''))
-        entry_keyword = normalize_for_match(entry.get('keyword', ''))
+        # A hand-edited questions.json can have a non-string value for any
+        # of these fields (e.g. a number or nested object) -- normalize_for_match
+        # assumes a string and would raise on anything else, so skip entries
+        # that don't hold up their end of the contract rather than crashing
+        # the bot mid-loop.
+        raw_question = entry.get('question', '')
+        raw_keyword = entry.get('keyword', '')
+        raw_answer = entry.get('answer', DEFAULT_RESPONSE)
+        if not (
+            isinstance(raw_question, str)
+            and isinstance(raw_keyword, str)
+            and isinstance(raw_answer, str)
+        ):
+            continue
+        entry_question = normalize_for_match(raw_question)
+        entry_keyword = normalize_for_match(raw_keyword)
         # Logging the check for debugging.
         if normalized_cleaned == entry_question:
-            return entry.get('answer', DEFAULT_RESPONSE)  # Return the exact answer
+            return raw_answer  # Return the exact answer
         elif entry_keyword and entry_keyword in normalized_cleaned:
-            return entry.get('answer', DEFAULT_RESPONSE)  # Fallback to keyword match
+            return raw_answer  # Fallback to keyword match
         elif entry_keyword and entry_keyword in normalized_corrected:
-            return entry.get('answer', DEFAULT_RESPONSE)  # Fallback to keyword match in corrected question
+            return raw_answer  # Fallback to keyword match in corrected question
     return DEFAULT_RESPONSE  # Default response if no match found
