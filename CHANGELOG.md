@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `bot/health.py` `StuckStateMonitor`: tracks stale OCR chat frames, consecutive screen-capture failures, and loop idle time for `fishing.py`/`thieving.py`, and performs deterministic, logged recovery when a loop looks stuck.
+- Tests for the above: `tests/test_health.py`, `tests/test_question_handler.py`, `tests/test_screen_processing.py` (including noisy-OCR-input fixtures).
+- `bot/checkpoint.py` `CheckpointLogger`: periodic (default 60s) structured checkpoint log line for `fishing.py`/`thieving.py` (elapsed runtime, last action, idle time, `StuckStateMonitor` counters), plus a capped recent-action ring buffer that `summarize_failure()` dumps to an error-level log when an unhandled exception ends the loop. Covered by `tests/test_checkpoint.py`.
+
+### Changed
+
+- `Dockerfile` app stage pinned to `python:3.10-slim-bookworm` (was `3.11`), matching the deps stage, CI, and `pyproject.toml`; README now documents one supported Python version instead of two.
+- `question_handler.py`: `lookup_response` now normalizes (lower-case, whitespace-collapsed) OCR text before comparing, and corrects the *cleaned* question instead of the raw OCR string, fixing a case-sensitivity bug that silently defeated exact-match lookups. `clean_question` now strips the "click here to continue" prompt boilerplate case- and whitespace-insensitively (was an exact string match) and `lookup_response` no longer raises if `questions.json` has a malformed `questions` value or entry.
+- `screen_processing.py`: `capture_and_process_chat` no longer raises on Tesseract/OCR failures; it logs and returns an empty chat string so a transient OCR error can't crash a long-running loop. It now also returns an explicit `ocr_ok` flag (2026-09-09) so callers can distinguish an actual OCR failure from a legitimately empty chat region — both previously collapsed into `record_frame("")`, which reset the stuck-state monitor's capture-failure counter on every call and meant a persistent Tesseract failure could never trip `capture_failure_limit`.
+- `fishing.py` / `thieving.py`: route an OCR failure to `health_monitor.record_capture_failure()` instead of `record_frame("")`; back off 1s and skip the rest of the loop iteration after `health_monitor.recover()` instead of immediately retrying the same capture path that was just declared stuck.
+- `actions.py`: removed a redundant `time.sleep(60)` inside `fish_from_spot`'s normal-fishing path — it stacked with `Fish()`'s own loop-level `time.sleep(60)`, so each attempt actually waited ~120s instead of the intended ~60s.
+- `question_handler.py`: `lookup_response` now validates that each entry's `question`/`keyword`/`answer` fields are actually strings before matching, instead of assuming so — a non-string value (a hand-edited `questions.json` can have one) would otherwise raise inside `normalize_for_match` and crash the loop. `lookup_response` also now guards against a `questions.json` whose root isn't a dict at all (a truthy list or string), not just against a missing/malformed `questions` key. New `squash_for_match` helper (whitespace fully removed, not just collapsed) is tried as a fallback so an OCR line break that splits a single word in two ("Runes\ncape") can still match the keyword "runescape".
+- `screen_processing.py`: added explicit type hints (`Tuple[str, np.ndarray, bool]`) to `capture_and_process_chat`'s signature matching its actual 3-value return contract.
+
+### Added (from initial release)
+
 - Fishing automation loop (`fishing.py`): F1 pause/resume, 60-second poll interval, inventory-full detection via OCR chat parsing.
 - Thieving automation loop (`thieving.py`): F1 pause/resume, coin-pouch flush, Onyx rare-item halt, randomized action delay (0.5–0.8 s).
 - `click_with_variance` in `actions.py`: ±5-pixel random offset on every click to mimic human interaction.

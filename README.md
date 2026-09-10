@@ -8,12 +8,11 @@ A Python-based bot designed to automate Old School RuneScape tasks with computer
 
 ## Dependencies
 
-- Python 3.10 is the primary supported version (used in CI and tooling); Python 3.11 is used in the Docker runtime image and is generally compatible.
+- Python 3.10 is the single supported version, used consistently in CI, Docker (both build stages), and local tooling (`pyproject.toml` targets `py310`). One version was chosen over documenting multiple compatible versions to avoid interpreter/wheel drift between where dependencies are built and where the bot runs — see `docs/HANDOFF-docker-entrypoint-20260403.md` history for context on prior Docker/runtime mismatches.
 - [Tesseract OCR](https://github.com/tesseract-ocr/tesseract): Manually installed (required for text recognition)
 - Additional Python packages (see `requirements.txt`):
   - `pyautogui`
-  - `opencv-python`
-  - `opencv-python-headless`
+  - `opencv-python-headless` (headless build only — no GUI/X11 dependency; the bot only uses `cvtColor`/`imwrite`)
   - `pillow`
   - `numpy`
   - `pytesseract`
@@ -49,10 +48,10 @@ To run all tests and collect coverage in Docker:
 
 ```sh
 docker build --no-cache -t osrs-test .
-docker run --rm -it osrs-test /opt/venv/bin/pytest --cov
+docker run --rm osrs-test xvfb-run -a /opt/venv/bin/python -m pytest --cov
 ```
 
-This uses the dev dependencies and includes all test files. Coverage output will be shown in the container log.
+This uses the dev dependencies and includes all test files. `xvfb-run` supplies the virtual display that `pyautogui`/`mouseinfo` need just to import (`camera.py`/`compass.py` tests), matching the CI job's `xvfb-run -a pytest` step. Coverage output will be shown in the container log.
 
 4. Verify Tesseract installation:
    - Ensure Tesseract is installed and added to your system's PATH.
