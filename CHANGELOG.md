@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `bot/health.py` `StuckStateMonitor`: tracks stale OCR chat frames, consecutive screen-capture failures, and loop idle time for `fishing.py`/`thieving.py`, and performs deterministic, logged recovery when a loop looks stuck.
 - Tests for the above: `tests/test_health.py`, `tests/test_question_handler.py`, `tests/test_screen_processing.py` (including noisy-OCR-input fixtures).
+- `bot/checkpoint.py` `CheckpointLogger`: periodic (default 60s) structured checkpoint log line for `fishing.py`/`thieving.py` (elapsed runtime, last action, idle time, `StuckStateMonitor` counters), plus a capped recent-action ring buffer that `summarize_failure()` dumps to an error-level log when an unhandled exception ends the loop. Covered by `tests/test_checkpoint.py`.
 
 ### Changed
 

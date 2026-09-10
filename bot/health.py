@@ -109,3 +109,13 @@ class StuckStateMonitor:
     @property
     def recovery_count(self) -> int:
         return self._recovery_count
+
+    @property
+    def stale_frame_count(self) -> int:
+        """Consecutive identical (non-empty) OCR chat frames observed so far."""
+        return self._stale_frame_count
+
+    @property
+    def capture_failure_count(self) -> int:
+        """Consecutive failed `capture_screen()`/OCR calls observed so far."""
+        return self._capture_failure_count
