@@ -41,10 +41,26 @@ def normalize_for_match(text: str) -> str:
     """Lower-case and whitespace-normalize text for case/spacing-insensitive matching.
 
     OCR output frequently varies in case and inserts stray whitespace runs
-    (line breaks mid-word, doubled spaces), so every comparison in
+    (doubled spaces, tabs) between words, so every comparison in
     `lookup_response` should go through this instead of comparing raw strings.
+    This collapses whitespace runs to a single space -- it does not remove
+    whitespace entirely, so a line break that splits a single word in two
+    ("Runes\ncape") still normalizes to two words ("runes cape"), not one
+    ("runescape"). For that intra-token case, see `squash_for_match`.
     """
     return _WHITESPACE_RE.sub(" ", (text or "")).strip().lower()
+
+
+def squash_for_match(text: str) -> str:
+    """Like `normalize_for_match`, but removes whitespace entirely.
+
+    OCR can legitimately break a single word across two lines when chat text
+    wraps mid-token (no hyphen inserted), which `normalize_for_match` alone
+    can't compensate for -- "Runes\ncape" normalizes to "runes cape", which
+    will never match the keyword "runescape". `lookup_response` tries this
+    squashed form as a fallback after the normalized one.
+    """
+    return _WHITESPACE_RE.sub("", (text or "")).strip().lower()
 
 
 def correct_text(text: str) -> str:
@@ -68,13 +84,19 @@ def lookup_response(question: str, question_responses: dict) -> str:
 
     normalized_cleaned = normalize_for_match(cleaned_question)
     normalized_corrected = normalize_for_match(corrected_question)
+    squashed_cleaned = squash_for_match(cleaned_question)
+    squashed_corrected = squash_for_match(corrected_question)
 
     # questions.json is hand-edited, so `question_responses` may legitimately
-    # be malformed ({"questions": null}, "questions" missing entirely, a
-    # non-list value, or an entry that isn't an object) -- none of that
-    # should ever crash the bot mid-loop, it should just fall through to
-    # DEFAULT_RESPONSE like "no match found" does.
-    entries = question_responses.get('questions') if question_responses else None
+    # be malformed (not a dict at all, {"questions": null}, "questions"
+    # missing entirely, a non-list value, or an entry that isn't an object)
+    # -- none of that should ever crash the bot mid-loop, it should just
+    # fall through to DEFAULT_RESPONSE like "no match found" does.
+    entries = (
+        question_responses.get('questions')
+        if isinstance(question_responses, dict)
+        else None
+    )
     if not isinstance(entries, list):
         entries = []
 
@@ -97,6 +119,7 @@ def lookup_response(question: str, question_responses: dict) -> str:
             continue
         entry_question = normalize_for_match(raw_question)
         entry_keyword = normalize_for_match(raw_keyword)
+        squashed_keyword = squash_for_match(raw_keyword)
         # Logging the check for debugging.
         if normalized_cleaned == entry_question:
             return raw_answer  # Return the exact answer
@@ -104,4 +127,11 @@ def lookup_response(question: str, question_responses: dict) -> str:
             return raw_answer  # Fallback to keyword match
         elif entry_keyword and entry_keyword in normalized_corrected:
             return raw_answer  # Fallback to keyword match in corrected question
+        elif squashed_keyword and squashed_keyword in squashed_cleaned:
+            # A line break inside a single OCR'd word ("Runes\ncape") survives
+            # normalize_for_match as two words -- try the whitespace-free form
+            # too before giving up on this entry.
+            return raw_answer
+        elif squashed_keyword and squashed_keyword in squashed_corrected:
+            return raw_answer
     return DEFAULT_RESPONSE  # Default response if no match found

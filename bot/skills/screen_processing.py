@@ -15,6 +15,13 @@ SCREENSHOT_DIRECTORY = ".//bot//questions"
 
 
 def capture_screen() -> Optional[np.ndarray]:
+    """Grab a full-screen screenshot and convert it to an RGB NumPy array.
+
+    Returns the captured screen as an RGB `np.ndarray` (BGR-to-RGB converted,
+    since `ImageGrab`/`np.array` produce BGR-ordered channels), or `None` if
+    the capture itself failed (logged, never raised) -- callers must treat
+    `None` as a transient capture failure, not an empty screen.
+    """
     try:
         # Capture the screen using ImageGrab
         screen = ImageGrab.grab()

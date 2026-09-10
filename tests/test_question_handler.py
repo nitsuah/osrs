@@ -7,6 +7,7 @@ from bot.skills.question_handler import (
     correct_text,
     lookup_response,
     normalize_for_match,
+    squash_for_match,
 )
 
 
@@ -57,6 +58,19 @@ class TestNormalizeForMatch:
         assert normalize_for_match(None) == ""
 
 
+class TestSquashForMatch:
+    """Test the whitespace-removing helper used for intra-token OCR line breaks."""
+
+    def test_removes_intra_word_line_break(self):
+        assert squash_for_match("Runes\ncape") == "runescape"
+
+    def test_lowercases(self):
+        assert squash_for_match("SKY") == "sky"
+
+    def test_handles_none(self):
+        assert squash_for_match(None) == ""
+
+
 class TestCorrectText:
     """Test TextBlob-based correction and its failure handling."""
 
@@ -95,6 +109,16 @@ class TestLookupResponse:
     def test_keyword_match_with_noisy_whitespace(self):
         with self._no_op_correct():
             response = lookup_response("Hey,   who   made\nRunescape anyway?", SAMPLE_RESPONSES)
+        assert response == "Jagex"
+
+    def test_keyword_match_with_line_break_inside_the_keyword_itself(self):
+        # OCR can wrap a single word across two lines with no hyphen, e.g.
+        # "Runescape" read as "Runes\ncape" -- normalize_for_match alone
+        # turns that into "runes cape" (two words), which never matches the
+        # keyword "runescape". squash_for_match's whitespace-free fallback
+        # should still catch it.
+        with self._no_op_correct():
+            response = lookup_response("Hey, who made Runes\ncape anyway?", SAMPLE_RESPONSES)
         assert response == "Jagex"
 
     def test_keyword_match_is_case_insensitive(self):
@@ -140,17 +164,34 @@ class TestLookupResponse:
             response = lookup_response("what colour is the sky?", malformed)
         assert response == DEFAULT_RESPONSE
 
-    def test_entry_with_non_string_field_is_skipped_without_raising(self):
-        # A hand-edited questions.json could have a non-string value for
-        # question/keyword/answer (e.g. a stray number or nested object).
-        # normalize_for_match assumes a string, so this must be skipped
-        # rather than crash the bot mid-loop.
+    def test_entry_with_non_string_field_is_skipped_without_raising(self) -> None:
+        """A hand-edited questions.json could have a non-string value for
+        question/keyword/answer (e.g. a stray number or nested object).
+        normalize_for_match assumes a string, so such entries must be
+        skipped rather than crash the bot mid-loop.
+        """
         malformed = {
             "questions": [
-                {"question": 12345, "keyword": "sky", "answer": "wrong"},
-                {"question": "who made runescape?", "keyword": ["Runescape"], "answer": "wrong"},
-                {"question": "what colour is the sky?", "keyword": "sky", "answer": {"nested": True}},
-                {"question": "who made runescape?", "keyword": "Runescape", "answer": "Jagex"},
+                {
+                    "question": 12345,
+                    "keyword": "sky",
+                    "answer": "wrong",
+                },
+                {
+                    "question": "who made runescape?",
+                    "keyword": ["Runescape"],
+                    "answer": "wrong",
+                },
+                {
+                    "question": "what colour is the sky?",
+                    "keyword": "sky",
+                    "answer": {"nested": True},
+                },
+                {
+                    "question": "who made runescape?",
+                    "keyword": "Runescape",
+                    "answer": "Jagex",
+                },
             ]
         }
         with self._no_op_correct():
