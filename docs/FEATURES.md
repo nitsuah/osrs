@@ -34,9 +34,14 @@ Status guide: `[shipped]` is available now, `[planned]` is backlog work.
 - `[shipped]` **Inventory Detection**: Monitors chat for "inventory is full" messages
 - `[shipped]` **Teleport Detection**: Recognizes when player is teleported and halts automation
 
+### 🩺 Health & Recovery
+
+- `[shipped]` **Stuck-State Monitoring**: `bot/health.py`'s `StuckStateMonitor` tracks stale OCR chat frames, consecutive screen-capture failures, and loop idle time for the fishing/thieving loops, and performs deterministic, logged recovery when a loop looks stuck.
+- `[shipped]` **Runtime Checkpoint Logging**: `bot/checkpoint.py`'s `CheckpointLogger` emits a periodic (default 60s) structured state log line (elapsed runtime, last action, idle time, live monitor counters) plus a capped recent-action ring buffer dumped on an unhandled exception.
+- `[planned]` **Skill-Specific Corrective Recovery**: `recover()` currently only logs and resets counters rather than taking a real corrective action (e.g. re-centering the camera); needs live-game verification — see `docs/TASKS.md`.
+
 ### Planned Follow-On Work
 
-- `[planned]` Health and stuck-state recovery flows
 - `[planned]` Additional skill modules such as woodcutting and mining
 
 ## Configuration & Utilities
