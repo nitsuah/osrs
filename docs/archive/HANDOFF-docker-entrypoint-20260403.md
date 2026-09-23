@@ -1,3 +1,7 @@
+> **Archived 2026-09-23**: the fix this handoff describes shipped long ago;
+> kept for historical context only (README.md references it as background on
+> a prior Docker/runtime mismatch).
+
 # Delivery Pipeline Handoff
 
 ## Repository Context
