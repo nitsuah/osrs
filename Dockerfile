@@ -3,7 +3,7 @@
 # ================================
 # Stage 1: Dependencies
 # ================================
-FROM python:3.10-slim-bookworm AS deps
+FROM python:3.12-slim-bookworm AS deps
 WORKDIR /app
 
 # Copy dependency definitions
@@ -23,7 +23,7 @@ RUN /opt/venv/bin/pip install --no-cache-dir -r requirements-dev.txt
 # Pinned to the same minor version as the deps stage and CI (3.10) so the
 # interpreter that builds/tests wheels is the one that runs them. See
 # README.md "Dependencies" for the version policy rationale.
-FROM python:3.10-slim-bookworm AS app
+FROM python:3.12-slim-bookworm AS app
 WORKDIR /app
 
 # tesseract-ocr: required at runtime by pytesseract (bot/skills/screen_processing.py).
