@@ -1,6 +1,6 @@
 # OSRS Bot Roadmap
 
-Last Updated: 2026-09-23
+Last Updated: 2026-09-24
 
 ## 2026 Q1 ✅
 
@@ -14,6 +14,7 @@ Last Updated: 2026-09-23
 
 ## 2026 Q3 (Planned)
 
+- [ ] **P0:** restore the Docker build: realign Python across Docker, CI and `pyproject.toml` after numpy 2.5.3 (#41) and the CI move to 3.12 (#42). See `docs/TASKS.md` (2026-09-24 PMO audit).
 - [ ] Give stuck-state recovery a real skill-specific corrective action (basic monitoring/logging shipped in Q2; see `docs/TASKS.md`).
 - [ ] Expand skill coverage to new modules such as woodcutting and mining.
 - [ ] Add a deterministic simulation mode for behavior tests.
