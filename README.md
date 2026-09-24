@@ -8,7 +8,7 @@ A Python-based bot designed to automate Old School RuneScape tasks with computer
 
 ## Dependencies
 
-- Python 3.10 is the single supported version, used consistently in CI, Docker (both build stages), and local tooling (`pyproject.toml` targets `py310`). One version was chosen over documenting multiple compatible versions to avoid interpreter/wheel drift between where dependencies are built and where the bot runs — see `docs/archive/HANDOFF-docker-entrypoint-20260403.md` for context on prior Docker/runtime mismatches.
+- Python 3.12 is the single supported version, used consistently in CI, Docker (both build stages), and local tooling (`pyproject.toml` targets `py312`). It was raised from 3.10 on 2026-09-24 because numpy 2.5.x requires Python ≥3.12. CI now also builds the Docker image, so a version drift like this one fails the PR instead of reaching `main`. One version was chosen over documenting multiple compatible versions to avoid interpreter/wheel drift between where dependencies are built and where the bot runs — see `docs/archive/HANDOFF-docker-entrypoint-20260403.md` for context on prior Docker/runtime mismatches.
 - [Tesseract OCR](https://github.com/tesseract-ocr/tesseract): Manually installed (required for text recognition)
 - Additional Python packages (see `requirements.txt`):
   - `pyautogui`

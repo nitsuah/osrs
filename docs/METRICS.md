@@ -4,7 +4,7 @@
 
 | Metric              | Value | Notes                                      |
 | ------------------- | ----- | ------------------------------------------ |
-| Code Coverage | TBD | Could not re-measure on 2026-09-24: `docker build` fails on `main` (numpy 2.5.3 vs Python 3.10; see TASKS.md P0). The last measurement was 100% for `bot/camera.py`, `bot/compass.py` and `bot/utils.py` only (Docker run 2026-08-23, 25 tests). The test suite has grown since then. Command once fixed: `pytest tests/ --cov=bot --cov-report=term` |
+| Code Coverage | 98% | 784 statements, 16 missed; 87 tests passed. Measured 2026-09-24 inside the fixed Python 3.12 image: `docker build -t osrs-bot . && docker run --rm --entrypoint sh osrs-bot -c "cd /app && xvfb-run -a python -m pytest -q"` |
 | Lines of Code | 939 | Raw line count of all `.py` files under `bot/` (`wc -l`, 2026-09-24) |
 | Python Files | 13 | `.py` files under `bot/` (2026-09-24) |
 | Test Files | 8 | test_camera, test_checkpoint, test_compass, test_health, test_question_handler, test_screen_processing, test_smoke, test_utils (+ conftest.py) |
@@ -20,5 +20,5 @@
 | ------------ | ---------- | ---------------------------------- |
 | Open Issues | 1 | `gh issue list` (2026-09-24) |
 | Test Files | 8 | test_camera, test_checkpoint, test_compass, test_health, test_question_handler, test_screen_processing, test_smoke, test_utils (+ conftest.py) |
-| Health Score | TBD | Docker build broken on `main` since #41 (2026-09-23); the old "A+ / 100" can't be backed until the P0 in TASKS.md is fixed |
+| Health Score | TBD | Docker build restored on 2026-09-24 (Python 3.12 alignment, and CI now builds the image). Re-score on the next PMO cycle |
 | Last Updated | 2026-09-24 | PMO audit: static counts refreshed; Docker run blocked by build failure |
