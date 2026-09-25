@@ -184,7 +184,7 @@ Shared community policies are centralized in [nitsuah/.github](https://github.co
 
 ## Docs Index
 
-Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+Every doc at the repo root (other than this README) and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
 
 - [OSRS Bot Features](./docs/FEATURES.md) — `docs/FEATURES.md`
 - [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
