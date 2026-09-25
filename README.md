@@ -181,6 +181,7 @@ Shared community policies are centralized in [nitsuah/.github](https://github.co
 - Security: [SECURITY.md](https://github.com/nitsuah/.github/blob/main/SECURITY.md)
 
 <!-- docs-index:start -->
+
 ## Docs Index
 
 Every tracked doc in this repo, so nothing is orphaned (also used by the Obsidian vault mirror).
@@ -194,7 +195,8 @@ Every tracked doc in this repo, so nothing is orphaned (also used by the Obsidia
 
 - [Delivery Pipeline Handoff](./docs/archive/HANDOFF-docker-entrypoint-20260403.md) — `docs/archive/HANDOFF-docker-entrypoint-20260403.md`
 
-**`docs/None/`**
+**`repo root`**
 
 - [Changelog](./CHANGELOG.md) — `CHANGELOG.md`
+
 <!-- docs-index:end -->
