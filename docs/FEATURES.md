@@ -1,5 +1,7 @@
 # OSRS Bot Features
 
+> 🧭 [osrs](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 Status guide: `[shipped]` is available now, `[planned]` is backlog work.
 
 ## Automation Core

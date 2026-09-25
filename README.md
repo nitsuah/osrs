@@ -1,5 +1,7 @@
 # OSRS Bot
 
+> 🧭 **osrs** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+
 [![CI](https://github.com/nitsuah/osrs/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/osrs/actions)
 
 A Python-based bot designed to automate Old School RuneScape tasks with computer vision and chat-response handling. Thieving and fishing are the shipped automation paths today; broader recovery and expansion work remains planned.
@@ -177,3 +179,24 @@ Shared community policies are centralized in [nitsuah/.github](https://github.co
 - Contributing: [CONTRIBUTING.md](https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md)
 - Code of Conduct: [CODE_OF_CONDUCT.md](https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md)
 - Security: [SECURITY.md](https://github.com/nitsuah/.github/blob/main/SECURITY.md)
+
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+
+- [OSRS Bot Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
+- [OSRS Bot Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
+
+**`docs/archive/`**
+
+- [Delivery Pipeline Handoff](./docs/archive/HANDOFF-docker-entrypoint-20260403.md) — `docs/archive/HANDOFF-docker-entrypoint-20260403.md`
+
+**`repo root`**
+
+- [Changelog](./CHANGELOG.md) — `CHANGELOG.md`
+
+<!-- docs-index:end -->
