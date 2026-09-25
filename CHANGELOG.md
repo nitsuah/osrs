@@ -1,5 +1,7 @@
 # Changelog
 
+> 🧭 [osrs](./README.md) · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · **Changelog** · [Metrics](./docs/METRICS.md) <!-- nav -->
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -15,7 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- `Dockerfile` app stage pinned to `python:3.10-slim-bookworm` (was `3.11`), matching the deps stage, CI, and `pyproject.toml`; README now documents one supported Python version instead of two.
+- **Python 3.12 everywhere** (P0 fix, #44): both Dockerfile stages, CI (#42) and `pyproject.toml` (`py312`) now use 3.12, restoring the Docker build that numpy 2.5.3 (#41, requires ≥3.12) had broken while Docker was still on 3.10 (flagged in #43). Supersedes the 3.10 pin below.
+- Python dependencies pinned with a `pip-audit` CI signal (#38).
+- Planning docs reset for 2027 (`pmo-ff`): completed roadmap/TASKS items condensed into FEATURES/CHANGELOG, open 2026 Q3/Q4 items carried into 2027 Q1, breadcrumb navigation + README docs index added.
+- *(superseded by #44)* `Dockerfile` app stage pinned to `python:3.10-slim-bookworm` (was `3.11`), matching the deps stage, CI, and `pyproject.toml`; README now documents one supported Python version instead of two.
 - `question_handler.py`: `lookup_response` now normalizes (lower-case, whitespace-collapsed) OCR text before comparing, and corrects the *cleaned* question instead of the raw OCR string, fixing a case-sensitivity bug that silently defeated exact-match lookups. `clean_question` now strips the "click here to continue" prompt boilerplate case- and whitespace-insensitively (was an exact string match) and `lookup_response` no longer raises if `questions.json` has a malformed `questions` value or entry.
 - `screen_processing.py`: `capture_and_process_chat` no longer raises on Tesseract/OCR failures; it logs and returns an empty chat string so a transient OCR error can't crash a long-running loop. It now also returns an explicit `ocr_ok` flag (2026-09-09) so callers can distinguish an actual OCR failure from a legitimately empty chat region — both previously collapsed into `record_frame("")`, which reset the stuck-state monitor's capture-failure counter on every call and meant a persistent Tesseract failure could never trip `capture_failure_limit`.
 - `fishing.py` / `thieving.py`: route an OCR failure to `health_monitor.record_capture_failure()` instead of `record_frame("")`; back off 1s and skip the rest of the loop iteration after `health_monitor.recover()` instead of immediately retrying the same capture path that was just declared stuck.
