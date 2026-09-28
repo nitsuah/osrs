@@ -16,7 +16,7 @@ action so every loop doesn't need to invent its own recovery/backoff logic.
 import logging
 import time
 from dataclasses import dataclass
-from typing import Optional
+from typing import Callable, Optional
 
 
 @dataclass
@@ -69,10 +69,17 @@ class StuckStateMonitor:
             self._stale_frame_count = 1
         self._last_chat_text = chat_text
 
-    def record_activity(self) -> None:
-        """Record that the loop performed a real action (click, response, etc.)."""
+    def record_activity(self, verified: bool = False) -> None:
+        """Record that the loop performed a real action (click, response, etc.).
+
+        Args:
+            verified: If True, the action produced a verified state change
+            (e.g. chat text actually changed). Only resets stale frame count
+            when verified to avoid false progress signals.
+        """
         self._last_activity = time.monotonic()
-        self._stale_frame_count = 0
+        if verified:
+            self._stale_frame_count = 0
 
     def idle_seconds(self) -> float:
         return time.monotonic() - self._last_activity
@@ -84,13 +91,14 @@ class StuckStateMonitor:
             or self.idle_seconds() >= self.config.max_idle_seconds
         )
 
-    def recover(self) -> None:
-        """Perform deterministic recovery: log a checkpoint and reset counters.
+    def recover(self, corrective_action: Optional[Callable[[], None]] = None) -> None:
+        """Perform deterministic recovery: run optional corrective action, log, and reset counters.
 
         This guarantees the monitor's own state doesn't stay latched in a
-        "stuck" condition forever; callers remain free to layer loop-specific
-        corrective action (e.g. re-clicking the compass) on top, but even if
-        they don't, the monitor will keep evaluating fresh state afterward.
+        "stuck" condition forever. An optional skill-specific corrective action
+        (e.g. re-centering camera, moving character) runs before counters reset,
+        giving the environment a chance to change state. If no action is provided,
+        the monitor still resets its counters and keeps evaluating fresh state.
         """
         self._recovery_count += 1
         logging.warning(
@@ -102,6 +110,12 @@ class StuckStateMonitor:
             self._capture_failure_count,
             self.idle_seconds(),
         )
+        if corrective_action is not None:
+            try:
+                corrective_action()
+                logging.info("[%s] Corrective action executed", self.name)
+            except Exception as e:
+                logging.error("[%s] Corrective action failed: %s", self.name, e)
         self._stale_frame_count = 0
         self._capture_failure_count = 0
         self._last_activity = time.monotonic()

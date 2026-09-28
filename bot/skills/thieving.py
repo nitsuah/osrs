@@ -11,6 +11,7 @@ from bot.health import StuckStateMonitor
 from bot.skills.screen_processing import capture_screen, capture_and_process_chat, save_screenshot
 from bot.skills.question_handler import DEFAULT_RESPONSE, load_question_responses, lookup_response
 from bot.skills.actions import thieve_from_stall
+from bot.camera import check_and_zoom_in, hold_up_arrow
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -32,6 +33,14 @@ CLICK_COUNTER = 0
 question_responses = load_question_responses()
 health_monitor = StuckStateMonitor("thieving")
 checkpoint_logger = CheckpointLogger("thieving")
+
+
+def _recenter_camera() -> None:
+    """Re-center the camera view as a corrective action for stuck state."""
+    logging.info("[thieving] Executing corrective action: re-centering camera")
+    # Zoom in to reset camera to a known state, then tilt up
+    check_and_zoom_in(5)
+    time.sleep(0.2)
 
 
 def respond_to_question(question: str, chat_image) -> None:
@@ -83,7 +92,7 @@ def Theft() -> None:
             handle_user_input()
 
             if health_monitor.is_stuck():
-                health_monitor.recover()
+                health_monitor.recover(corrective_action=_recenter_camera)
                 # Give the environment a beat before retrying rather than
                 # immediately hammering the same capture path that was just
                 # declared stuck in this same iteration.
@@ -113,7 +122,7 @@ def Theft() -> None:
                 logging.info("Responding to question...")
                 respond_to_question(question, chat_image)
                 checkpoint_logger.record_action("respond_to_question")
-                health_monitor.record_activity()
+                health_monitor.record_activity(verified=True)
                 time.sleep(random.uniform(0.5, 0.8))
                 logging.info("Continue thieving...")
                 continue
@@ -122,7 +131,7 @@ def Theft() -> None:
             # Update CLICK_COUNTER with the returned value from thieve_from_stall
             CLICK_COUNTER = thieve_from_stall(chat_text, CLICK_COUNTER)
             checkpoint_logger.record_action("thieve_from_stall")
-            health_monitor.record_activity()
+            health_monitor.record_activity(verified=False)
             time.sleep(random.uniform(0.5, 0.8))
     except Exception as exc:
         checkpoint_logger.summarize_failure(exc, health_monitor)

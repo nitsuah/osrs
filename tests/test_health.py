@@ -44,9 +44,49 @@ class TestStuckStateMonitorFrames:
 
         monitor.record_frame("same text")
         monitor.record_frame("same text")
-        monitor.record_activity()
+        monitor.record_activity(verified=True)
         monitor.record_frame("same text")
         assert monitor.is_stuck() is False
+
+    def test_unverified_activity_does_not_reset_stale_frame_count(self):
+        config = HealthConfig(stale_frame_limit=3, capture_failure_limit=100, max_idle_seconds=1000)
+        monitor = StuckStateMonitor("test", config)
+
+        monitor.record_frame("same text")
+        monitor.record_frame("same text")
+        monitor.record_activity(verified=False)
+        monitor.record_frame("same text")
+        assert monitor.is_stuck() is True
+
+    def test_recover_with_corrective_action(self):
+        config = HealthConfig(stale_frame_limit=1, capture_failure_limit=1, max_idle_seconds=1000)
+        monitor = StuckStateMonitor("test", config)
+
+        corrective_called = []
+
+        def action():
+            corrective_called.append(True)
+
+        monitor.record_capture_failure()
+        assert monitor.is_stuck() is True
+
+        monitor.recover(corrective_action=action)
+
+        assert monitor.is_stuck() is False
+        assert monitor.recovery_count == 1
+        assert corrective_called == [True]
+
+    def test_recover_without_corrective_action(self):
+        config = HealthConfig(stale_frame_limit=1, capture_failure_limit=1, max_idle_seconds=1000)
+        monitor = StuckStateMonitor("test", config)
+
+        monitor.record_capture_failure()
+        assert monitor.is_stuck() is True
+
+        monitor.recover()
+
+        assert monitor.is_stuck() is False
+        assert monitor.recovery_count == 1
 
 
 class TestStuckStateMonitorCaptureFailures:
