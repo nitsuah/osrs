@@ -10,6 +10,7 @@ from bot.skills.screen_processing import capture_screen, capture_and_process_cha
 # from bot.skills.question_handler import correct_text
 from bot.skills.actions import fish_from_spot
 from bot.skills.thieving import respond_to_question
+from bot.camera import check_and_zoom_in, hold_up_arrow
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -40,6 +41,14 @@ def handle_user_input() -> None:
         time.sleep(1)
 
 
+def _recenter_camera() -> None:
+    """Re-center the camera view as a corrective action for stuck state."""
+    logging.info("[fishing] Executing corrective action: re-centering camera")
+    # Zoom in to reset camera to a known state, then tilt up
+    check_and_zoom_in(5)
+    time.sleep(0.2)
+
+
 def Fish() -> None:
     logging.info("Starting the Fishing bot...")
 
@@ -56,7 +65,7 @@ def Fish() -> None:
             handle_user_input()
 
             if health_monitor.is_stuck():
-                health_monitor.recover()
+                health_monitor.recover(corrective_action=_recenter_camera)
                 # Give the environment a beat before retrying rather than
                 # immediately hammering the same capture path that was just
                 # declared stuck in this same iteration.
@@ -85,7 +94,7 @@ def Fish() -> None:
                 logging.info("Responding to question...")
                 respond_to_question(question, chat_image)
                 checkpoint_logger.record_action("respond_to_question")
-                health_monitor.record_activity()
+                health_monitor.record_activity(verified=True)
                 time.sleep(random.uniform(0.5, 0.8))
                 logging.info("Continue fishing...")
                 continue
@@ -94,7 +103,7 @@ def Fish() -> None:
             # Update CLICK_COUNTER with the returned value from fish_from_spot
             CLICK_COUNTER = fish_from_spot(chat_text, CLICK_COUNTER)
             checkpoint_logger.record_action("fish_from_spot")
-            health_monitor.record_activity()
+            health_monitor.record_activity(verified=False)
             time.sleep(60)  # Sleep for 60 seconds before checking again
     except Exception as exc:
         checkpoint_logger.summarize_failure(exc, health_monitor)
