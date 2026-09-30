@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Agent instructions (`.github/copilot-instructions.md`) now require closing tracked work in the same PR: update `docs/TASKS.md`, `docs/ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/main...HEAD --stat` includes them before merge; added `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
 - **Python 3.12 everywhere** (P0 fix, #44): both Dockerfile stages, CI (#42) and `pyproject.toml` (`py312`) now use 3.12, restoring the Docker build that numpy 2.5.3 (#41, requires ≥3.12) had broken while Docker was still on 3.10 (flagged in #43). Supersedes the 3.10 pin below.
 - Python dependencies pinned with a `pip-audit` CI signal (#38).
 - Planning docs reset for 2027 (`pmo-ff`): completed roadmap/TASKS items condensed into FEATURES/CHANGELOG, open 2026 Q3/Q4 items carried into 2027 Q1, breadcrumb navigation + README docs index added.
