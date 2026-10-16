@@ -14,6 +14,11 @@ files rather than a duplicated narrative here.
 
 ## Todo
 
+- [ ] **[2027-Q1]** Validate stuck-state recovery in a live game session.
+  - Priority: P2
+  - Context: the code shipped in #47 (skill-specific `corrective_action` for fishing and thieving, verified-only stale-frame resets), but it has only been unit-tested. Nobody has watched a stuck loop recover against a real client.
+  - Acceptance Criteria: a fishing and a thieving loop are forced into a stuck state with a real client running; each recovers via its corrective action without a manual restart; the result is recorded here.
+
 - [ ] Bump the `nltk` pin once a patched release ships (#39, GHSA-8mgp-746c-j5xp).
   - Priority: P3
   - Type: Security · Confidence: High
