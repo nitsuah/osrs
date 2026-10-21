@@ -13,7 +13,7 @@ Last Updated: 2026-09-24
 
 ### Committed *(carried from 2026 Q3)*
 
-- [ ] Give stuck-state recovery a real skill-specific corrective action (implemented in PR #47; still needs live-game validation — see "Validate stuck-state recovery in a live game session" in `docs/TASKS.md`).
+- [ ] Give stuck-state recovery a real skill-specific corrective action (implemented in PR #47; still needs live-game validation — see "Validate stuck-state recovery in a live game session" in [Validate stuck-state recovery in a live game session](./TASKS.md)).
 - [ ] Expand skill coverage to new modules such as woodcutting and mining.
 - [ ] Add a deterministic simulation mode for behavior tests.
 
