@@ -50,7 +50,7 @@ To run all tests and collect coverage in Docker:
 
 ```sh
 docker build --no-cache -t osrs-test .
-docker run --rm osrs-test xvfb-run -a /opt/venv/bin/python -m pytest -c config/pytest.ini --cov
+docker run --rm osrs-test xvfb-run -a /opt/venv/bin/python -m pytest -c config/pytest.ini --rootdir=. --cov
 ```
 
 This uses the dev dependencies and includes all test files. `xvfb-run` supplies the virtual display that `pyautogui`/`mouseinfo` need just to import (`camera.py`/`compass.py` tests), matching the CI job's `xvfb-run -a pytest` step. Coverage output will be shown in the container log.
