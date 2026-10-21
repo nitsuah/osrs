@@ -50,7 +50,7 @@ To run all tests and collect coverage in Docker:
 
 ```sh
 docker build --no-cache -t osrs-test .
-docker run --rm osrs-test xvfb-run -a /opt/venv/bin/python -m pytest --cov
+docker run --rm osrs-test xvfb-run -a /opt/venv/bin/python -m pytest -c config/pytest.ini --cov
 ```
 
 This uses the dev dependencies and includes all test files. `xvfb-run` supplies the virtual display that `pyautogui`/`mouseinfo` need just to import (`camera.py`/`compass.py` tests), matching the CI job's `xvfb-run -a pytest` step. Coverage output will be shown in the container log.
@@ -98,6 +98,13 @@ make test        # Run all tests
 make coverage    # Run tests with coverage
 make lint        # Lint with flake8
 make build       # Build with pyinstaller
+```
+
+The pre-commit config lives in `config/`, not the repo root, so pass it explicitly:
+
+```sh
+pre-commit install --config config/.pre-commit-config.yaml   # re-run this if hooks were installed before the move
+pre-commit run --config config/.pre-commit-config.yaml --all-files
 ```
 
 ### Docker-based test/coverage
