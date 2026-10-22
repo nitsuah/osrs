@@ -50,7 +50,7 @@ jobs:
 
     - name: Test with pytest
       run: |
-        xvfb-run -a pytest
+        xvfb-run -a pytest -c config/pytest.ini --rootdir=.
 
     - name: Build with pyinstaller
       run: |

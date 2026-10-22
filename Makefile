@@ -5,10 +5,10 @@
 all: test
 
 test:
-	pytest
+	pytest -c config/pytest.ini --rootdir=.
 
 coverage:
-	pytest --cov
+	pytest -c config/pytest.ini --rootdir=. --cov
 
 lint:
 	flake8 --config config/.flake8 .
@@ -18,7 +18,7 @@ build:
 
 docker-test:
 	docker build --no-cache -t osrs-test:py .
-	docker run --rm osrs-test:py xvfb-run -a /opt/venv/bin/python -m pytest --cov
+	docker run --rm osrs-test:py xvfb-run -a /opt/venv/bin/python -m pytest -c config/pytest.ini --rootdir=. --cov
 
 docker-build:
 	docker build -t osrs:latest .
