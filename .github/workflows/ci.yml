@@ -27,10 +27,6 @@ jobs:
         pip install -r requirements-dev.txt
 
     - name: Security audit with pip-audit
-      # Signal only, not a gate: nltk 3.10.3 currently has an open advisory
-      # (PYSEC-2026-3740) with no patched release yet, so a hard failure
-      # here would permanently redden CI. Findings still show in the logs.
-      continue-on-error: true
       run: |
         pip install pip-audit
         pip-audit -r requirements.txt
