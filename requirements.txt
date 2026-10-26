@@ -6,4 +6,4 @@ pytesseract==0.3.13
 keyboard==0.13.5
 textblob==0.20.1
 pygetwindow==0.0.9
-nltk==3.10.3
+nltk==3.10.4
