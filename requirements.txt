@@ -1,9 +1,9 @@
 pyautogui==0.9.54
-opencv-python-headless==5.0.0.93
-pillow==13.0.0
-numpy==2.5.4
+opencv-python-headless==4.10.0.84
+pillow==10.4.0
+numpy==1.26.4
 pytesseract==0.3.13
 keyboard==0.13.5
 textblob==0.20.1
 pygetwindow==0.0.9
-nltk==3.10.4
+nltk==3.9.1
