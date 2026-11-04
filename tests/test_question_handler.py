@@ -57,6 +57,12 @@ class TestNormalizeForMatch:
     def test_handles_none(self):
         assert normalize_for_match(None) == ""
 
+    def test_whitespace_only_returns_empty_string(self):
+        assert normalize_for_match(" \t\r\n  ") == ""
+
+    def test_collapses_mixed_tabs_newlines_and_spaces(self):
+        assert normalize_for_match("  What\tcolour\r\nis   the sky?  ") == "what colour is the sky?"
+
 
 class TestSquashForMatch:
     """Test the whitespace-removing helper used for intra-token OCR line breaks."""
