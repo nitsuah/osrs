@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - CI: repo-health shared kit pinned to `nitsuah/.github@a0df883` (was `7d3c243`), which no longer ships the stale `msgpack` advisory row.
+- `pytest -c config/pytest.ini` now collects headless: `tests/conftest.py` stubs `pyautogui` when its import fails (it needs `DISPLAY` at import time). With a display (CI's `xvfb-run`, the Docker image) the real module is used. `flake8` is now in `requirements-dev.txt` so `make lint` works after a dev install.
 - Agent instructions (`.github/copilot-instructions.md`) now require closing tracked work in the same PR: update `docs/TASKS.md`, `docs/ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/main...HEAD --stat` includes them before merge; added `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
 - **Python 3.12 everywhere** (P0 fix, #44): both Dockerfile stages, CI (#42) and `pyproject.toml` (`py312`) now use 3.12, restoring the Docker build that numpy 2.5.3 (#41, requires ≥3.12) had broken while Docker was still on 3.10 (flagged in #43). Supersedes the 3.10 pin below.
 - Python dependencies pinned with a `pip-audit` CI signal (#38).
