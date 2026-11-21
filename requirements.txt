@@ -7,3 +7,4 @@ keyboard==0.13.5
 textblob==0.20.1
 pygetwindow==0.0.9
 nltk==3.10.4
+tqdm==4.70.1  # transitive via nltk; pinned so installs and scanners get a patched version (#65)
