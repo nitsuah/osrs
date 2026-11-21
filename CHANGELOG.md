@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- Pin `tqdm==4.70.1` (pulled in by `nltk`, which sets no lower bound) so installs and the dependency scanner get a patched version (#65).
+
 ### Added
 
 - `StuckStateMonitor.recover()` takes a skill-specific `corrective_action` (fishing and thieving re-center the camera), and `record_activity(verified=...)` resets the stale-frame count only on a verified state change (#47). Live-game verification is still to be done by hand.
