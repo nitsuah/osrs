@@ -62,6 +62,22 @@
       "visual": "none"
     },
     {
+      "id": "inventory-detection",
+      "title": "Inventory Detection",
+      "category": "Game State",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    },
+    {
+      "id": "teleport-detection",
+      "title": "Teleport Detection",
+      "category": "Game State",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    },
+    {
       "id": "stuck-state-monitoring",
       "title": "Stuck-State Monitoring",
       "category": "Health and Recovery",
