@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `promo/spots.json`, the showcase standard ledger: every shipped feature from `docs/FEATURES.md` is listed, marked `visual: none` because the bot has no frontend.
+
 ### Security
 
 - Pin `tqdm==4.70.1` (pulled in by `nltk`, which sets no lower bound) so installs and the dependency scanner get a patched version (#65).

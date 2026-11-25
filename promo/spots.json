@@ -1,0 +1,126 @@
+{
+  "product": "osrs",
+  "live": null,
+  "page": null,
+  "pagesDir": null,
+  "frontend": false,
+  "features": [
+    {
+      "id": "thieving-bot",
+      "title": "Thieving Bot",
+      "category": "Skill Automation",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    },
+    {
+      "id": "fishing-bot",
+      "title": "Fishing Bot",
+      "category": "Skill Automation",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    },
+    {
+      "id": "click-variance",
+      "title": "Click Variance",
+      "category": "Skill Automation",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    },
+    {
+      "id": "pause-resume",
+      "title": "Pause/Resume Control",
+      "category": "Skill Automation",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    },
+    {
+      "id": "screen-capture-ocr",
+      "title": "Screen Capture and OCR",
+      "category": "Computer Vision",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    },
+    {
+      "id": "question-handler",
+      "title": "Question Handler",
+      "category": "Anti-Detection",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    },
+    {
+      "id": "game-state-management",
+      "title": "Compass, Camera and Teleport Handling",
+      "category": "Game State",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    },
+    {
+      "id": "inventory-detection",
+      "title": "Inventory Detection",
+      "category": "Game State",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    },
+    {
+      "id": "teleport-detection",
+      "title": "Teleport Detection",
+      "category": "Game State",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    },
+    {
+      "id": "stuck-state-monitoring",
+      "title": "Stuck-State Monitoring",
+      "category": "Health and Recovery",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    },
+    {
+      "id": "checkpoint-logging",
+      "title": "Runtime Checkpoint Logging",
+      "category": "Health and Recovery",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    },
+    {
+      "id": "ini-config",
+      "title": "INI-based Configuration",
+      "category": "Configuration",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    },
+    {
+      "id": "click-recorder",
+      "title": "Mouse Click Recorder",
+      "category": "Development Tools",
+      "screenshots": [],
+      "spots": [],
+      "visual": "none"
+    }
+  ],
+  "spots": [],
+  "reels": [
+    {
+      "id": "hero",
+      "spots": [],
+      "published": null
+    }
+  ],
+  "brand": {
+    "source": null,
+    "derived": [],
+    "manual": []
+  }
+}
