@@ -11,7 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Tests for `bot.skills.actions`: `click_with_variance`, `thieve_from_stall` and `fish_from_spot` branches (`tests/test_actions.py`).
 - Tests for the `bot.skills.fishing` loop and pause key handler (`tests/test_fishing_loop.py`).
 - `promo/spots.json`, the showcase standard ledger: every shipped feature from `docs/FEATURES.md` is listed, marked `visual: none` because the bot has no frontend.
 - Tests for `bot.config`: validates shipped config sections, coordinate parsing, `load_config` missing-file behavior, and tmp-path relative loading (`tests/test_config.py`).
