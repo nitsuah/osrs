@@ -1,7 +1,12 @@
 name: Risk guard
 
+# Bootstrap check is loaded from the PR branch and is not trusted against workflow edits.
+# Once merged, pull_request_target loads this trusted base-branch version.
+# Branch protection should require "Trusted guard / Risk guard", not the bootstrap check.
 on:
   pull_request:
+    types: [opened, synchronize, reopened, edited, labeled, unlabeled]
+  pull_request_target:
     types: [opened, synchronize, reopened, edited, labeled, unlabeled]
 
 permissions:
@@ -9,7 +14,17 @@ permissions:
   pull-requests: read
 
 jobs:
+  bootstrap:
+    name: Bootstrap (untrusted)
+    if: github.event_name == 'pull_request'
+    uses: nitsuah/.github/.github/workflows/risk-guard.yml@a94cae3fa28c0a330d39cd95b276a1bdcec6aeb2 # main
+    permissions:
+      contents: read
+      pull-requests: read
+
   guard:
+    name: Trusted guard
+    if: github.event_name == 'pull_request_target'
     uses: nitsuah/.github/.github/workflows/risk-guard.yml@a94cae3fa28c0a330d39cd95b276a1bdcec6aeb2 # main
     permissions:
       contents: read
